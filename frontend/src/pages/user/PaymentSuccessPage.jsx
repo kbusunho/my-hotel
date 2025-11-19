@@ -12,6 +12,7 @@ export default function PaymentSuccessPage() {
 
   useEffect(() => {
     confirmPayment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const confirmPayment = async () => {

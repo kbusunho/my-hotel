@@ -29,7 +29,8 @@ router.get('/:id', async (req, res) => {
 
     res.json(room);
   } catch (error) {
-    res.status(500).json({ message: '객실 정보를 불러오는 중 오류가 발생했습니다.' });
+    console.error('Room detail error:', error);
+    res.status(500).json({ message: '객실 정보를 불러오는 중 오류가 발생했습니다.', error: error.message });
   }
 });
 

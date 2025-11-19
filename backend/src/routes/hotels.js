@@ -35,7 +35,8 @@ router.get('/search', async (req, res) => {
 
     res.json(hotelsWithPrice);
   } catch (error) {
-    res.status(500).json({ message: '호텔 검색 중 오류가 발생했습니다.' });
+    console.error('Hotel search error:', error);
+    res.status(500).json({ message: '호텔 검색 중 오류가 발생했습니다.', error: error.message });
   }
 });
 
@@ -54,7 +55,8 @@ router.get('/:id', async (req, res) => {
 
     res.json({ hotel, rooms });
   } catch (error) {
-    res.status(500).json({ message: '호텔 정보를 불러오는 중 오류가 발생했습니다.' });
+    console.error('Hotel detail error:', error);
+    res.status(500).json({ message: '호텔 정보를 불러오는 중 오류가 발생했습니다.', error: error.message });
   }
 });
 

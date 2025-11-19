@@ -25,7 +25,8 @@ export default function BookingPage() {
       return;
     }
     loadRoomDetails();
-  }, [roomId, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, user, navigate]);
 
   const loadRoomDetails = async () => {
     try {
@@ -35,6 +36,8 @@ export default function BookingPage() {
       setHotel(response.data.hotel);
     } catch (error) {
       console.error('Failed to load room:', error);
+      alert('객실 정보를 불러오는데 실패했습니다.');
+      navigate('/search');
     } finally {
       setLoading(false);
     }
@@ -59,12 +62,14 @@ export default function BookingPage() {
         checkIn: bookingData.checkIn,
         checkOut: bookingData.checkOut,
         guests: bookingData.guests,
+        specialRequests: bookingData.specialRequests,
         usedPoints: 0
       });
 
       navigate(`/payment/${response.data._id}`);
     } catch (error) {
-      alert('예약 생성 중 오류가 발생했습니다.');
+      console.error('Booking error:', error);
+      alert(error.response?.data?.message || '예약 생성 중 오류가 발생했습니다.');
     }
   };
 

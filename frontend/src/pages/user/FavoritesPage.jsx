@@ -13,6 +13,7 @@ export default function FavoritesPage() {
     if (user) {
       loadFavorites();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const loadFavorites = async () => {
@@ -22,6 +23,8 @@ export default function FavoritesPage() {
       setFavorites(response.data.favorites || []);
     } catch (error) {
       console.error('Failed to load favorites:', error);
+      alert('찜 목록을 불러오는데 실패했습니다.');
+      setFavorites([]);
     } finally {
       setLoading(false);
     }

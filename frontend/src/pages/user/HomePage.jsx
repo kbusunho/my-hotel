@@ -40,6 +40,7 @@ export default function HomePage() {
       setFeaturedHotels(response.data);
     } catch (error) {
       console.error('Failed to load hotels:', error);
+      setFeaturedHotels([]);
     }
   };
 

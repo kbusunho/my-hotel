@@ -10,9 +10,14 @@ router.get('/me', authenticate, async (req, res) => {
       .select('-password')
       .populate('favorites', 'name images location rating');
 
+    if (!user) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+    }
+
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: '사용자 정보를 불러오는 중 오류가 발생했습니다.' });
+    console.error('Get user error:', error);
+    res.status(500).json({ message: '사용자 정보를 불러오는 중 오류가 발생했습니다.', error: error.message });
   }
 });
 

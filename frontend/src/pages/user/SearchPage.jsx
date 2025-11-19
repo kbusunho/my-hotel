@@ -15,6 +15,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     searchHotels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const searchHotels = async () => {
@@ -31,6 +32,8 @@ export default function SearchPage() {
       setHotels(response.data);
     } catch (error) {
       console.error('Failed to search hotels:', error);
+      alert('호텔 검색에 실패했습니다. 다시 시도해주세요.');
+      setHotels([]);
     } finally {
       setLoading(false);
     }

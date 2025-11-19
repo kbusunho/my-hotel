@@ -9,6 +9,22 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, name, phone, role } = req.body;
 
+    // 필수 필드 검증
+    if (!email || !password || !name || !phone) {
+      return res.status(400).json({ message: '모든 필드를 입력해주세요.' });
+    }
+
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: '올바른 이메일 형식이 아닙니다.' });
+    }
+
+    // 비밀번호 길이 검증
+    if (password.length < 6) {
+      return res.status(400).json({ message: '비밀번호는 최소 6자 이상이어야 합니다.' });
+    }
+
     // 이메일 중복 확인
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -29,7 +45,8 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json({ message: '회원가입이 완료되었습니다.' });
   } catch (error) {
-    res.status(500).json({ message: '회원가입 중 오류가 발생했습니다.' });
+    console.error('Register error:', error);
+    res.status(500).json({ message: '회원가입 중 오류가 발생했습니다.', error: error.message });
   }
 });
 

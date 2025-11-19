@@ -13,6 +13,7 @@ export default function PaymentPage() {
 
   useEffect(() => {
     loadBookingDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingId]);
 
   const loadBookingDetails = async () => {

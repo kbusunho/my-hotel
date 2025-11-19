@@ -14,6 +14,7 @@ export default function MyBookingsPage() {
     if (user) {
       loadBookings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const loadBookings = async () => {
@@ -23,6 +24,8 @@ export default function MyBookingsPage() {
       setBookings(response.data);
     } catch (error) {
       console.error('Failed to load bookings:', error);
+      alert('예약 목록을 불러오는데 실패했습니다.');
+      setBookings([]);
     } finally {
       setLoading(false);
     }

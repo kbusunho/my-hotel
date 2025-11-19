@@ -17,10 +17,15 @@ export default function HotelDetailPage() {
   useEffect(() => {
     loadHotelDetails();
     loadReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
     if (user) {
       checkFavoriteStatus();
     }
-  }, [id, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, id]);
 
   const loadHotelDetails = async () => {
     try {
@@ -30,6 +35,7 @@ export default function HotelDetailPage() {
       setRooms(response.data.rooms);
     } catch (error) {
       console.error('Failed to load hotel:', error);
+      alert('호텔 정보를 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
     }

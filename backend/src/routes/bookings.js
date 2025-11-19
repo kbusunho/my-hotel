@@ -8,7 +8,7 @@ const { authenticate } = require('../middleware/auth');
 // 예약 생성
 router.post('/', authenticate, async (req, res) => {
   try {
-    const { roomId, checkIn, checkOut, guests, usedCoupons, usedPoints } = req.body;
+    const { roomId, checkIn, checkOut, guests, usedCoupons, usedPoints, specialRequests } = req.body;
 
     // 객실 확인
     const room = await Room.findById(roomId).populate('hotel');
@@ -37,6 +37,7 @@ router.post('/', authenticate, async (req, res) => {
       finalPrice,
       usedCoupons,
       usedPoints,
+      specialRequests: specialRequests || '',
       tossOrderId: `ORDER_${Date.now()}_${req.user._id}`
     });
 
@@ -48,7 +49,8 @@ router.post('/', authenticate, async (req, res) => {
 
     res.status(201).json(booking);
   } catch (error) {
-    res.status(500).json({ message: '예약 생성 중 오류가 발생했습니다.' });
+    console.error('Booking creation error:', error);
+    res.status(500).json({ message: '예약 생성 중 오류가 발생했습니다.', error: error.message });
   }
 });
 
