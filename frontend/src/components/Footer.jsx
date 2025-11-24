@@ -141,16 +141,16 @@ export default function Footer() {
               <li className="flex items-start space-x-3">
                 <FaMapMarkerAlt className="text-sage-400 mt-1 flex-shrink-0" />
                 <span className="text-gray-300 text-sm">
-                  서울특별시 강남구<br />테헤란로 123, 10층
+                  경기도 남양주시 진접읍 <br />경복대로 425, 창조관 2층
                 </span>
               </li>
               <li className="flex items-center space-x-3">
                 <FaPhone className="text-sage-400 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">1588-0000</span>
+                <span className="text-gray-300 text-sm">010-1234-5678</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FaEnvelope className="text-sage-400 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">support@hotelhub.com</span>
+                <span className="text-gray-300 text-sm">happysun0142@gmail.com</span>
               </li>
             </ul>
             <div className="mt-4">

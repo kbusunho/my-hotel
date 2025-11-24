@@ -85,6 +85,41 @@ router.get('/my', authenticate, async (req, res) => {
   }
 });
 
+// 사업자 예약 목록 (캘린더용)
+router.get('/business/my', authenticate, async (req, res) => {
+  try {
+    if (req.user.role !== 'business') {
+      return res.status(403).json({ message: '사업자만 접근 가능합니다.' });
+    }
+
+    const { year, month } = req.query;
+    
+    // 사업자의 호텔 찾기
+    const hotels = await Hotel.find({ owner: req.user._id });
+    const hotelIds = hotels.map(h => h._id);
+
+    // 쿼리 조건 구성
+    const query = { hotel: { $in: hotelIds } };
+    
+    if (year && month) {
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0, 23, 59, 59);
+      query.checkIn = { $gte: startDate, $lte: endDate };
+    }
+
+    const bookings = await Booking.find(query)
+      .populate('hotel', 'name')
+      .populate('room', 'name type')
+      .populate('user', 'name email')
+      .sort('checkIn');
+
+    res.json(bookings);
+  } catch (error) {
+    console.error('Business bookings error:', error);
+    res.status(500).json({ message: '예약 목록을 불러오는 중 오류가 발생했습니다.' });
+  }
+});
+
 // 예약 상세
 router.get('/:id', authenticate, async (req, res) => {
   try {

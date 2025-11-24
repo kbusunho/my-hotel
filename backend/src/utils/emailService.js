@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 // 이메일 전송 설정
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   service: 'gmail', // 또는 다른 이메일 서비스
   auth: {
     user: process.env.EMAIL_USER,
