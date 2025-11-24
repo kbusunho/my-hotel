@@ -62,19 +62,31 @@ router.put('/me/password', authenticate, async (req, res) => {
 // 찜 목록 추가/제거
 router.post('/favorites/:hotelId', authenticate, async (req, res) => {
   try {
+    const Favorite = require('../models/Favorite');
     const user = await User.findById(req.user._id);
     const hotelId = req.params.hotelId;
 
     const index = user.favorites.indexOf(hotelId);
+    
     if (index > -1) {
+      // 찜 해제
       user.favorites.splice(index, 1);
+      await Favorite.findOneAndDelete({ user: req.user._id, hotel: hotelId });
     } else {
+      // 찜 추가
       user.favorites.push(hotelId);
+      
+      // Favorite 컬렉션에도 추가
+      const existingFavorite = await Favorite.findOne({ user: req.user._id, hotel: hotelId });
+      if (!existingFavorite) {
+        await Favorite.create({ user: req.user._id, hotel: hotelId });
+      }
     }
 
     await user.save();
     res.json(user.favorites);
   } catch (error) {
+    console.error('찜 목록 업데이트 오류:', error);
     res.status(500).json({ message: '찜 목록 업데이트 중 오류가 발생했습니다.' });
   }
 });

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const { checkMaintenance } = require('./middleware/maintenance');
 
 dotenv.config();
 
@@ -14,6 +15,9 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 유지보수 모드 체크 (모든 라우트 전에 실행)
+app.use(checkMaintenance);
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -29,6 +33,7 @@ app.use('/api/business', require('./routes/business'));
 app.use('/api/favorites', require('./routes/favorites'));
 app.use('/api/view-history', require('./routes/viewHistory'));
 app.use('/api/activity-logs', require('./routes/activityLogs'));
+app.use('/api/system-settings', require('./routes/systemSettings'));
 
 // MongoDB 연결
 mongoose.connect(process.env.MONGO_URI)

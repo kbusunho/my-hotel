@@ -146,7 +146,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <FaPhone className="text-sage-400 flex-shrink-0" />
-                <span className="text-gray-300 text-sm"></span>
+                <span className="text-gray-300 text-sm">010-1234-5678</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FaEnvelope className="text-sage-400 flex-shrink-0" />
@@ -182,8 +182,8 @@ export default function Footer() {
           </div>
           <div className="mt-4 text-center">
             <p className="text-gray-500 text-xs">
-              (주)호텔허브 | 대표이사: 홍길동 | 사업자등록번호: 123-45-67890<br />
-              통신판매업신고번호: 제2025-서울강남-0000호 | 관광사업자 등록번호: 제2025-000000호
+              (주)호텔허브 | 대표이사: 최길동 | 사업자등록번호: 123-45-67890<br />
+              통신판매업신고번호: 제2025-경기남양주시-0000호 | 관광사업자 등록번호: 제2025-000000호
             </p>
           </div>
         </div>

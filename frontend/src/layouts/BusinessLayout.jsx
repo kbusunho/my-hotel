@@ -1,9 +1,11 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaHotel, FaBed, FaCalendar, FaStar, FaSignOutAlt, FaChartBar, FaCog, FaHome } from 'react-icons/fa';
+import { useTheme } from '../context/ThemeContext';
+import { FaHotel, FaBed, FaCalendar, FaStar, FaSignOutAlt, FaChartBar, FaCog, FaHome, FaTicketAlt, FaMoon, FaSun } from 'react-icons/fa';
 
 export default function BusinessLayout() {
   const { user, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
 
   const menuItems = [
@@ -12,27 +14,38 @@ export default function BusinessLayout() {
     { path: '/business/rooms', label: '객실 관리', icon: FaBed },
     { path: '/business/bookings', label: '예약 관리', icon: FaCalendar },
     { path: '/business/calendar', label: '예약 캘린더', icon: FaCalendar },
+    { path: '/business/coupons', label: '쿠폰 관리', icon: FaTicketAlt },
     { path: '/business/reviews', label: '리뷰 관리', icon: FaStar },
     { path: '/business/settings', label: '계정 설정', icon: FaCog },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex transition-colors">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-800 text-white">
+      <aside className="w-64 bg-slate-800 dark:bg-gray-800 text-white">
         <div className="p-6">
           <div className="flex items-center space-x-2 mb-8">
             <FaHotel className="text-2xl" />
             <span className="text-xl font-bold">Hotel Admin</span>
           </div>
 
-          <Link
-            to="/"
-            className="flex items-center justify-center space-x-2 px-4 py-2 mb-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <FaHome />
-            <span>홈페이지로 이동</span>
-          </Link>
+          <div className="space-y-2 mb-4">
+            <Link
+              to="/"
+              className="flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            >
+              <FaHome />
+              <span>홈페이지로 이동</span>
+            </Link>
+            
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center space-x-2 px-4 py-2 w-full bg-slate-700 dark:bg-gray-700 text-white rounded-lg hover:bg-slate-600 dark:hover:bg-gray-600 transition-colors"
+            >
+              {isDark ? <FaSun className="text-yellow-400" /> : <FaMoon />}
+              <span>{isDark ? '밝게' : '어둡게'}</span>
+            </button>
+          </div>
 
           <nav className="space-y-2">
             {menuItems.map((item) => {

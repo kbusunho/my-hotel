@@ -3,37 +3,75 @@ const router = express.Router();
 const Coupon = require('../models/Coupon');
 const { authenticate, authorize } = require('../middleware/auth');
 
-// 쿠폰 목록
+// 쿠폰 목록 (호텔별 필터링 추가)
 router.get('/', async (req, res) => {
   try {
-    const coupons = await Coupon.find({ 
+    const { hotelId } = req.query;
+    
+    const query = {
       status: 'active',
       validFrom: { $lte: new Date() },
       validTo: { $gte: new Date() }
-    });
+    };
+
+    // 호텔 ID가 제공된 경우, 해당 호텔 쿠폰 + 전체 쿠폰 조회
+    if (hotelId) {
+      query.$or = [
+        { hotel: hotelId },
+        { hotel: null, couponType: 'admin' }
+      ];
+    } else {
+      // 호텔 ID가 없으면 전체 쿠폰만 조회
+      query.hotel = null;
+      query.couponType = 'admin';
+    }
+
+    const coupons = await Coupon.find(query).populate('hotel', 'name');
 
     res.json(coupons);
   } catch (error) {
+    console.error('쿠폰 목록 조회 오류:', error);
     res.status(500).json({ message: '쿠폰 목록을 불러오는 중 오류가 발생했습니다.' });
   }
 });
 
-// 쿠폰 코드로 조회
+// 쿠폰 코드로 조회 (호텔별 검증 추가)
 router.get('/code/:code', async (req, res) => {
   try {
-    const coupon = await Coupon.findOne({ 
+    const { hotelId } = req.query;
+    
+    const query = {
       code: req.params.code.toUpperCase(),
       status: 'active',
       validFrom: { $lte: new Date() },
       validTo: { $gte: new Date() }
-    });
+    };
+
+    // 호텔 ID가 제공된 경우
+    if (hotelId) {
+      query.$or = [
+        { hotel: hotelId },
+        { hotel: null, couponType: 'admin' }
+      ];
+    } else {
+      query.hotel = null;
+      query.couponType = 'admin';
+    }
+
+    const coupon = await Coupon.findOne(query).populate('hotel', 'name');
 
     if (!coupon) {
-      return res.status(404).json({ message: '유효하지 않은 쿠폰입니다.' });
+      return res.status(404).json({ message: '유효하지 않은 쿠폰이거나 해당 호텔에서 사용할 수 없는 쿠폰입니다.' });
+    }
+
+    // 사용 횟수 체크
+    if (coupon.usedCount >= coupon.usageLimit) {
+      return res.status(400).json({ message: '쿠폰 사용 가능 횟수가 초과되었습니다.' });
     }
 
     res.json(coupon);
   } catch (error) {
+    console.error('쿠폰 조회 오류:', error);
     res.status(500).json({ message: '쿠폰 조회 중 오류가 발생했습니다.' });
   }
 });
@@ -78,26 +116,38 @@ router.delete('/:id', authenticate, authorize('admin'), async (req, res) => {
   }
 });
 
-// 최적 쿠폰 자동 선택
+// 최적 쿠폰 자동 선택 (호텔별 적용)
 router.post('/calculate-best', authenticate, async (req, res) => {
   try {
     const { totalPrice, hotelId } = req.body;
 
-    // 사용 가능한 쿠폰 조회
-    const coupons = await Coupon.find({
+    // 사용 가능한 쿠폰 조회 (호텔 쿠폰 + 전체 쿠폰)
+    const query = {
       status: 'active',
       validFrom: { $lte: new Date() },
       validTo: { $gte: new Date() },
       $or: [
-        { applicableHotels: { $size: 0 } },
-        { applicableHotels: hotelId }
+        { hotel: hotelId, couponType: 'business' },
+        { hotel: null, couponType: 'admin' }
       ]
-    });
+    };
+
+    const coupons = await Coupon.find(query);
 
     let bestCoupon = null;
     let maxDiscount = 0;
 
     for (const coupon of coupons) {
+      // 사용 횟수 체크
+      if (coupon.usedCount >= coupon.usageLimit) {
+        continue;
+      }
+
+      // 최소 구매 금액 체크
+      if (coupon.minPurchase && totalPrice < coupon.minPurchase) {
+        continue;
+      }
+
       let discount = 0;
 
       if (coupon.discountType === 'percentage') {
@@ -107,11 +157,6 @@ router.post('/calculate-best', authenticate, async (req, res) => {
         }
       } else if (coupon.discountType === 'fixed') {
         discount = coupon.discountValue;
-      }
-
-      // 최소 구매 금액 체크
-      if (coupon.minPurchase && totalPrice < coupon.minPurchase) {
-        continue;
       }
 
       if (discount > maxDiscount) {

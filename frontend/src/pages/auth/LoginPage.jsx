@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { FaHotel, FaEnvelope, FaLock, FaExclamationCircle } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaHome } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { SiKakao } from 'react-icons/si';
 
 export default function LoginPage() {
@@ -13,6 +14,8 @@ export default function LoginPage() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,68 +50,81 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sage-600 via-sage-500 to-emerald-600 py-12 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header with gradient */}
-        <div className="bg-gradient-to-r from-sage-600 to-sage-500 px-8 py-10 text-center">
-          <Link to="/" className="inline-flex items-center space-x-2 text-white mb-4">
-            <FaHotel className="text-4xl" />
-            <span className="text-3xl font-bold">HotelHub</span>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        {/* Header */}
+        <div className="text-center">
+          <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4">
+            <FaHome className="mr-2" />
+            홈으로 가기
           </Link>
-          <h2 className="text-2xl font-bold text-white mt-4">로그인</h2>
-          <p className="mt-2 text-sage-50">계정에 로그인하세요</p>
+          <h2 className="text-4xl font-bold text-gray-900">로그인</h2>
+          <p className="mt-2 text-sm text-gray-600">로그인/회원가입</p>
         </div>
 
         {/* Login Form */}
-        <div className="px-8 py-8">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-lg flex items-start space-x-3">
-                <FaExclamationCircle className="text-xl mt-0.5 flex-shrink-0" />
-                <span>{error}</span>
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 이메일
               </label>
-              <div className="relative">
-                <FaEnvelope className="absolute left-4 top-3.5 text-gray-400" />
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  placeholder="happysun0142@gmail.com"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-sage-500 focus:ring-4 focus:ring-sage-100 transition-all outline-none"
-                />
-              </div>
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                placeholder="happysun0142@gmail.com"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
+              />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 비밀번호
               </label>
               <div className="relative">
-                <FaLock className="absolute left-4 top-3.5 text-gray-400" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-sage-500 focus:ring-4 focus:ring-sage-100 transition-all outline-none"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 text-sage-600 border-gray-300 rounded focus:ring-sage-500" />
-                <span className="text-gray-600">로그인 상태 유지</span>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+              />
+              <label className="ml-2 text-sm text-gray-600">
+                비밀번호 기억하기
               </label>
-              <Link to="/forgot-password" className="text-sage-600 hover:text-sage-700 font-medium">
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <Link to="/find-email" className="text-gray-600 hover:text-gray-900">
+                이메일 찾기
+              </Link>
+              <Link to="/forgot-password" className="text-gray-600 hover:text-gray-900">
                 비밀번호 찾기
               </Link>
             </div>
@@ -116,42 +132,55 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-gradient-to-r from-sage-600 to-sage-500 text-white rounded-lg hover:from-sage-700 hover:to-sage-600 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? '로그인 중...' : '로그인'}
             </button>
           </form>
 
-          {/* Social Login */}
-          <div className="mt-8">
+          {/* Divider */}
+          <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500 font-medium">간편 로그인</span>
+                <span className="px-2 bg-white text-gray-500">또는 다른 방법으로 로그인</span>
               </div>
             </div>
+          </div>
 
-            <div className="mt-6">
-              <button
-                onClick={handleKakaoLogin}
-                className="w-full flex items-center justify-center space-x-3 px-4 py-3.5 bg-[#FEE500] text-[#000000] rounded-lg hover:bg-[#FFEB3B] font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
-              >
-                <SiKakao className="text-2xl" />
-                <span>카카오로 로그인</span>
-              </button>
-            </div>
+          {/* Social Login */}
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            <button
+              type="button"
+              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-2xl text-blue-600">f</span>
+            </button>
+            <button
+              type="button"
+              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <FcGoogle size={24} />
+            </button>
+            <button
+              type="button"
+              onClick={handleKakaoLogin}
+              className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <SiKakao size={24} className="text-[#FEE500]" />
+            </button>
           </div>
 
           {/* Register Link */}
           <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-center text-sm text-gray-600">
-              계정이 없으신가요?{' '}
-              <Link to="/register" className="font-bold text-sage-600 hover:text-sage-700 hover:underline">
-                회원가입
-              </Link>
-            </p>
+            <button
+              onClick={() => navigate('/register')}
+              className="w-full py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium transition-colors"
+            >
+              회원가입
+            </button>
           </div>
         </div>
       </div>

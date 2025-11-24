@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/axios';
+import { BarChart, LineChart, DonutChart, StatCard } from '../../components/SimpleChart.jsx';
 import { 
   FaHotel, 
   FaCalendarCheck, 
@@ -13,7 +14,9 @@ import {
   FaPhone,
   FaClock,
   FaCheckCircle,
-  FaTimesCircle
+  FaTimesCircle,
+  FaWallet,
+  FaCoins
 } from 'react-icons/fa';
 
 export default function Dashboard() {

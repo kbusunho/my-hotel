@@ -160,46 +160,46 @@ export default function HomePage() {
           <p className="text-xl mb-8">검색을 통해 요금을 비교하고 무료 취소를 포함한 특가도 확인하세요!</p>
           
           {/* Search Box */}
-          <div className="bg-white rounded-lg shadow-2xl p-8 max-w-6xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-8 max-w-6xl mx-auto transition-colors">
             <div className="grid grid-cols-12 gap-4 items-end">
               <div className="col-span-4">
-                <label className="block text-sm text-gray-600 mb-2 font-medium">Where are you staying?</label>
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-2 font-medium">Where are you staying?</label>
                 <div className="relative">
-                  <FaMapMarkerAlt className="absolute left-4 top-4 text-gray-400" />
+                  <FaMapMarkerAlt className="absolute left-4 top-4 text-gray-400 dark:text-gray-500" />
                   <input
                     type="text"
                     placeholder="부산광역시, 대한민국"
                     value={searchData.city}
                     onChange={(e) => setSearchData({...searchData, city: e.target.value})}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
+                    className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white dark:bg-gray-700 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
                   />
                 </div>
               </div>
               
               <div className="col-span-3">
-                <label className="block text-sm text-gray-600 mb-2 font-medium">Check In</label>
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-2 font-medium">Check In</label>
                 <input
                   type="date"
                   value={searchData.checkIn}
                   onChange={(e) => setSearchData({...searchData, checkIn: e.target.value})}
                   placeholder="년 - 월 - 일"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white dark:bg-gray-700 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
                 />
               </div>
               
               <div className="col-span-3">
-                <label className="block text-sm text-gray-600 mb-2 font-medium">Check Out</label>
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-2 font-medium">Check Out</label>
                 <input
                   type="date"
                   value={searchData.checkOut}
                   onChange={(e) => setSearchData({...searchData, checkOut: e.target.value})}
                   placeholder="년 - 월 - 일"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white dark:bg-gray-700 focus:ring-2 focus:ring-sage-500 focus:border-transparent"
                 />
               </div>
               
               <div className="col-span-2">
-                <label className="block text-sm text-gray-600 mb-2 font-medium">2 Adults / 0 Children / 1 Room</label>
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-2 font-medium">2 Adults / 0 Children / 1 Room</label>
                 <Link
                   to={`/search?city=${searchData.city}&checkIn=${searchData.checkIn}&checkOut=${searchData.checkOut}`}
                   className="w-full px-6 py-3 bg-sage-600 text-white rounded-lg hover:bg-sage-700 inline-flex items-center justify-center font-medium transition-colors"
@@ -216,17 +216,17 @@ export default function HomePage() {
       {/* Featured Hotels */}
       <section className="container mx-auto px-4 py-16">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold">여행지 베스트</h2>
-          <Link to="/search" className="text-sage-600 hover:text-sage-700">See All</Link>
+          <h2 className="text-3xl font-bold dark:text-white">여행지 베스트</h2>
+          <Link to="/search" className="text-sage-600 dark:text-sage-400 hover:text-sage-700 dark:hover:text-sage-300">See All</Link>
         </div>
         
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-600 dark:text-gray-400 mb-8">
           부산광역시 관광을 여행할 수 신할 수 있는 완벽 상관일 매립니다
         </p>
 
         <div className="grid grid-cols-4 gap-6">
           {featuredHotels.slice(0, 4).map((hotel) => (
-            <Link key={hotel._id} to={`/hotels/${hotel._id}`} className="card group">
+            <Link key={hotel._id} to={`/hotels/${hotel._id}`} className="card group dark:bg-gray-800 dark:border-gray-700">
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={hotel.images?.[0] || '/placeholder-hotel.jpg'}
@@ -259,14 +259,14 @@ export default function HomePage() {
 
       {/* 최근 본 호텔 */}
       {user && recentlyViewed.length > 0 && (
-        <section className="container mx-auto px-4 py-16 bg-gray-50">
+        <section className="container mx-auto px-4 py-16 bg-gray-50 dark:bg-gray-800">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-3xl font-bold flex items-center">
-                <FaClock className="mr-3 text-sage-600" />
+              <h2 className="text-3xl font-bold dark:text-white flex items-center">
+                <FaClock className="mr-3 text-sage-600 dark:text-sage-400" />
                 최근 본 호텔
               </h2>
-              <p className="text-gray-600 mt-2">다시 보고 싶은 호텔을 빠르게 확인하세요</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">다시 보고 싶은 호텔을 빠르게 확인하세요</p>
             </div>
           </div>
 
@@ -276,7 +276,7 @@ export default function HomePage() {
               if (!hotel) return null;
               
               return (
-                <Link key={item._id} to={`/hotels/${hotel._id}`} className="card group">
+                <Link key={item._id} to={`/hotels/${hotel._id}`} className="card group dark:bg-gray-800 dark:border-gray-700">
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={hotel.images?.[0] || '/placeholder-hotel.jpg'}
@@ -288,17 +288,17 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
-                    <p className="text-sm text-gray-600 mb-2 flex items-center">
+                    <h3 className="font-bold text-lg mb-2 dark:text-white">{hotel.name}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 flex items-center">
                       <FaMapMarkerAlt className="mr-1" />
                       {hotel.location?.city}
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-yellow-500">
                         <FaStar />
-                        <span className="ml-1 text-gray-700">{hotel.rating?.toFixed(1) || '4.2'}</span>
+                        <span className="ml-1 text-gray-700 dark:text-gray-300">{hotel.rating?.toFixed(1) || '4.2'}</span>
                       </div>
-                      <div className="text-sage-600 font-bold">
+                      <div className="text-sage-600 dark:text-sage-400 font-bold">
                         ₩{(hotel.minPrice || 150000).toLocaleString()}
                       </div>
                     </div>
@@ -311,14 +311,14 @@ export default function HomePage() {
       )}
 
       {/* Popular Destinations Section */}
-      <section className="bg-sage-50 py-16">
+      <section className="bg-sage-50 dark:bg-gray-900 py-16 transition-colors">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-2">인기 여행지</h2>
-          <p className="text-gray-600 mb-8">많은 분들이 찾는 인기 호텔을 지역별로 만나보세요</p>
+          <h2 className="text-3xl font-bold dark:text-white mb-2">인기 여행지</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">많은 분들이 찾는 인기 호텔을 지역별로 만나보세요</p>
           
           <div className="grid grid-cols-12 gap-6">
             {/* 왼쪽 하이라이트 호텔 */}
-            <div className="col-span-5 bg-white rounded-lg shadow-md overflow-hidden group">
+            <div className="col-span-5 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden group transition-colors">
               {featuredHotels[4] && (
                 <Link to={`/hotels/${featuredHotels[4]._id}`} className="block">
                   <div className="relative h-64 overflow-hidden">
@@ -332,20 +332,20 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-2">{featuredHotels[4].name}</h3>
-                    <p className="text-gray-600 mb-4 flex items-center">
+                    <h3 className="text-2xl font-bold dark:text-white mb-2">{featuredHotels[4].name}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4 flex items-center">
                       <FaMapMarkerAlt className="mr-2" />
                       {featuredHotels[4].location?.city} · {featuredHotels[4].location?.district}
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-yellow-500">
                         <FaStar className="mr-1" />
-                        <span className="font-bold text-lg">{featuredHotels[4].rating?.toFixed(1) || '4.5'}</span>
-                        <span className="text-gray-500 text-sm ml-1">(후기)</span>
+                        <span className="font-bold text-lg dark:text-white">{featuredHotels[4].rating?.toFixed(1) || '4.5'}</span>
+                        <span className="text-gray-500 dark:text-gray-400 text-sm ml-1">(후기)</span>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm text-gray-500">1박 기준</div>
-                        <div className="text-2xl font-bold text-sage-600">
+                        <div className="text-sm text-gray-500 dark:text-gray-400">1박 기준</div>
+                        <div className="text-2xl font-bold text-sage-600 dark:text-sage-400">
                           ₩{(featuredHotels[4].minPrice || 180000).toLocaleString()}
                         </div>
                       </div>
@@ -357,7 +357,7 @@ export default function HomePage() {
             
             {/* 오른쪽 호텔 그리드 */}
             <div className="col-span-7 grid grid-cols-2 gap-4">
-              {featuredHotels.slice(5, 9).map((hotel, idx) => (
+              {featuredHotels.slice(5, 8).map((hotel, idx) => (
                 <Link
                   key={hotel._id || idx}
                   to={`/hotels/${hotel._id}`}
@@ -389,18 +389,30 @@ export default function HomePage() {
                   </div>
                 </Link>
               ))}
+              
+              {/* 4번째 카드 - 더보기 링크 */}
+              <Link
+                to="/search"
+                className="relative h-48 rounded-lg overflow-hidden group cursor-pointer shadow-md bg-sage-600 hover:bg-sage-700 transition-colors"
+              >
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                  <div className="text-5xl mb-4">+</div>
+                  <h4 className="font-bold text-xl mb-2">더 많은 호텔 보기</h4>
+                  <p className="text-sage-100 text-sm">다양한 숙소를 둘러보세요</p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-sage-500 text-white py-16 relative overflow-hidden">
+      <section className="bg-sage-500 dark:bg-gray-800 text-white py-16 relative overflow-hidden transition-colors">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">구독 서비스 신청해보세요</h2>
-            <p className="mb-2 text-sage-100">The Travel (여행 뉴스 영문 아침 5:30 매일 고시)</p>
-            <p className="mb-8 text-sage-50">
+            <p className="mb-2 text-sage-100 dark:text-gray-300">The Travel (여행 뉴스 영문 아침 5:30 매일 고시)</p>
+            <p className="mb-8 text-sage-50 dark:text-gray-400">
               이메일로 보는 가장 여행 기사들 아침마다 이메일로 뉴스를 꿈이 받아보세요.
             </p>
             

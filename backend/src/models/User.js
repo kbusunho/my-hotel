@@ -43,10 +43,38 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Hotel'
   }],
+  paymentCards: [{
+    cardNumber: {
+      type: String,
+      required: true
+    },
+    cardName: {
+      type: String,
+      required: true
+    },
+    expiryDate: {
+      type: String,
+      required: true
+    },
+    country: {
+      type: String,
+      default: 'South Korea'
+    },
+    isDefault: {
+      type: Boolean,
+      default: false
+    },
+    addedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
   isBlocked: {
     type: Boolean,
     default: false
   },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   createdAt: {
     type: Date,
     default: Date.now

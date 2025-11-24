@@ -2,6 +2,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { CompareProvider } from './context/CompareContext';
+import ErrorBoundary from './components/ErrorBoundary';
+import { useState, useEffect } from 'react';
+import axios from './api/axios';
 
 // User Pages
 import UserLayout from './layouts/UserLayout';
@@ -16,6 +20,7 @@ import PaymentFailPage from './pages/user/PaymentFailPage';
 import MyBookingsPage from './pages/user/MyBookingsPage';
 import FavoritesPage from './pages/user/FavoritesPage';
 import SettingsPage from './pages/user/SettingsPage';
+import CompareHotelsPage from './pages/user/CompareHotelsPage';
 
 // Info Pages
 import AboutPage from './pages/info/AboutPage';
@@ -34,6 +39,7 @@ import BookingManagement from './pages/business/BookingManagement';
 import ReviewManagement from './pages/business/ReviewManagement';
 import BusinessSettingsPage from './pages/business/SettingsPage';
 import BookingCalendar from './components/BookingCalendar';
+import BusinessCouponManagement from './pages/business/CouponManagement';
 
 // Admin Pages
 import AdminLayout from './layouts/AdminLayout';
@@ -50,15 +56,65 @@ import HotelTags from './pages/admin/HotelTags';
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
+import FindEmailPage from './pages/auth/FindEmailPage';
+
+// Maintenance Page
+import MaintenancePage from './pages/MaintenancePage';
 
 function App() {
+  const { user } = useAuth();
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [maintenanceMessage, setMaintenanceMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  // 유지보수 모드 체크
+  useEffect(() => {
+    checkMaintenance();
+  }, []);
+
+  const checkMaintenance = async () => {
+    try {
+      const response = await axios.get('/system-settings');
+      setMaintenanceMode(response.data.maintenanceMode);
+      setMaintenanceMessage(response.data.maintenanceMessage);
+    } catch (error) {
+      console.error('유지보수 모드 확인 실패:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 로딩 중
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-gray-600">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 유지보수 모드 활성화 시 (관리자 제외)
+  if (maintenanceMode && (!user || user.role !== 'admin')) {
+    return <MaintenancePage message={maintenanceMessage} />;
+  }
+
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <Routes>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <LanguageProvider>
+          <CompareProvider>
+            <Routes>
       {/* Auth Routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/find-email" element={<FindEmailPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
       
       {/* User Routes */}
       <Route path="/" element={<UserLayout />}>
@@ -72,6 +128,7 @@ function App() {
         <Route path="payment/fail" element={<PaymentFailPage />} />
         <Route path="my-bookings" element={<MyBookingsPage />} />
         <Route path="favorites" element={<FavoritesPage />} />
+        <Route path="compare" element={<CompareHotelsPage />} />
         <Route path="settings" element={<SettingsPage />} />
         
         {/* Info Pages */}
@@ -90,6 +147,7 @@ function App() {
         <Route path="rooms" element={<RoomManagement />} />
         <Route path="bookings" element={<BookingManagement />} />
         <Route path="calendar" element={<BookingCalendar />} />
+        <Route path="coupons" element={<BusinessCouponManagement />} />
         <Route path="reviews" element={<ReviewManagement />} />
         <Route path="settings" element={<BusinessSettingsPage />} />
       </Route>
@@ -107,8 +165,10 @@ function App() {
         <Route path="settings" element={<SystemSettings />} />
       </Route>
         </Routes>
+          </CompareProvider>
       </LanguageProvider>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

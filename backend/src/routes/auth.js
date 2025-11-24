@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const axios = require('axios');
+const crypto = require('crypto');
+const { sendEmail } = require('../utils/emailService');
 
 // 회원가입
 router.post('/register', async (req, res) => {
@@ -92,6 +94,142 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: '로그인 중 오류가 발생했습니다.' });
+  }
+});
+
+// 이메일 찾기 (이름과 전화번호로)
+router.post('/find-email', async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+
+    if (!name || !phone) {
+      return res.status(400).json({ message: '이름과 전화번호를 입력해주세요.' });
+    }
+
+    const user = await User.findOne({ name, phone });
+    
+    if (!user) {
+      return res.status(404).json({ message: '일치하는 회원 정보를 찾을 수 없습니다.' });
+    }
+
+    // 이메일 일부 마스킹 (앞 3자리만 표시)
+    const email = user.email;
+    const [localPart, domain] = email.split('@');
+    const maskedEmail = localPart.length > 3 
+      ? localPart.slice(0, 3) + '*'.repeat(localPart.length - 3) + '@' + domain
+      : email;
+
+    res.json({ 
+      email: user.email,
+      maskedEmail: maskedEmail,
+      message: '이메일을 찾았습니다.' 
+    });
+  } catch (error) {
+    console.error('Find email error:', error);
+    res.status(500).json({ message: '이메일 찾기 중 오류가 발생했습니다.' });
+  }
+});
+
+// 비밀번호 찾기 (이메일 발송)
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      // 보안상 이유로 사용자가 존재하지 않아도 성공 메시지 반환
+      return res.json({ message: '비밀번호 재설정 링크가 이메일로 전송되었습니다.' });
+    }
+
+    // 재설정 토큰 생성 (1시간 유효)
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000; // 1시간
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = resetTokenExpiry;
+    await user.save();
+
+    // 이메일 발송
+    const resetUrl = `${process.env.FRONT_ORIGIN}/reset-password?token=${resetToken}`;
+    
+    await sendEmail({
+      to: user.email,
+      subject: '[HotelHub] 비밀번호 재설정 요청',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #4F46E5;">비밀번호 재설정</h2>
+          <p>안녕하세요, ${user.name}님</p>
+          <p>비밀번호 재설정을 요청하셨습니다. 아래 버튼을 클릭하여 새로운 비밀번호를 설정해주세요.</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}" 
+               style="background-color: #4F46E5; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; display: inline-block;">
+              비밀번호 재설정
+            </a>
+          </div>
+          <p style="color: #666; font-size: 14px;">
+            이 링크는 1시간 동안만 유효합니다.<br>
+            비밀번호 재설정을 요청하지 않으셨다면 이 이메일을 무시해주세요.
+          </p>
+        </div>
+      `
+    });
+
+    res.json({ message: '비밀번호 재설정 링크가 이메일로 전송되었습니다.' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ message: '이메일 발송 중 오류가 발생했습니다.' });
+  }
+});
+
+// 비밀번호 재설정
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({ message: '필수 정보가 누락되었습니다.' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: '비밀번호는 최소 6자 이상이어야 합니다.' });
+    }
+
+    // 토큰으로 사용자 찾기
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: '유효하지 않거나 만료된 링크입니다.' });
+    }
+
+    // 비밀번호 업데이트
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    // 확인 이메일 발송
+    await sendEmail({
+      to: user.email,
+      subject: '[HotelHub] 비밀번호가 변경되었습니다',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #4F46E5;">비밀번호 변경 완료</h2>
+          <p>안녕하세요, ${user.name}님</p>
+          <p>비밀번호가 성공적으로 변경되었습니다.</p>
+          <p style="color: #666; font-size: 14px;">
+            만약 본인이 변경하지 않았다면 즉시 고객센터로 연락해주세요.
+          </p>
+        </div>
+      `
+    });
+
+    res.json({ message: '비밀번호가 재설정되었습니다.' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ message: '비밀번호 재설정 중 오류가 발생했습니다.' });
   }
 });
 
