@@ -154,7 +154,7 @@ const seedHotels = async (users) => {
   const business3 = users.find(u => u.email === 'business3@hotel.com');
 
   const hotels = [
-    // 서울 호텔
+    // 서울 호텔 (8개)
     {
       name: '서울 그랜드 호텔',
       description: '서울 중심부에 위치한 5성급 럭셔리 호텔입니다. 최상의 서비스와 편안한 객실을 제공합니다.',
@@ -166,10 +166,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.seoul,
       owner: business1._id,
-      amenities: ['무료 WiFi', '무료 주차', '수영장', '피트니스', '레스토랑', '바', '스파', '24시간 프런트'],
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '조식', '비즈니스', '키즈클럽'],
+      hotelType: 'luxury',
       rating: 4.8,
       reviewCount: 248,
-      status: 'active'
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
     },
     {
       name: '명동 비즈니스 호텔',
@@ -182,10 +184,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.seoul.slice(1),
       owner: business1._id,
-      amenities: ['무료 WiFi', '조식 포함', '24시간 프런트', '비즈니스 센터'],
+      amenities: ['WiFi', '조식', '비즈니스'],
+      hotelType: 'business',
       rating: 4.5,
       reviewCount: 186,
-      status: 'active'
+      status: 'active',
+      tags: ['비즈니스', '추천']
     },
     {
       name: '강남 스타일 호텔',
@@ -198,12 +202,104 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.seoul.slice(2),
       owner: business1._id,
-      amenities: ['무료 WiFi', '무료 주차', '피트니스', '레스토랑', '루프탑 바'],
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '바', '비즈니스'],
+      hotelType: 'business',
       rating: 4.6,
       reviewCount: 152,
-      status: 'active'
+      status: 'active',
+      tags: ['인기', '비즈니스']
     },
-    // 부산 호텔
+    {
+      name: '홍대 부티크 호텔',
+      description: '홍대 문화의 중심에 위치한 감각적인 부티크 호텔입니다.',
+      location: {
+        address: '서울특별시 마포구 홍익로 123',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5563, lng: 126.9227 }
+      },
+      images: hotelImages.seoul,
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바'],
+      hotelType: 'boutique',
+      rating: 4.4,
+      reviewCount: 95,
+      status: 'active',
+      tags: ['신규', '커플']
+    },
+    {
+      name: '이태원 글로벌 호텔',
+      description: '다양한 국제 문화를 경험할 수 있는 이태원의 프리미엄 호텔입니다.',
+      location: {
+        address: '서울특별시 용산구 이태원로 234',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5347, lng: 126.9946 }
+      },
+      images: hotelImages.seoul.slice(1),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '스파', '피트니스'],
+      hotelType: 'luxury',
+      rating: 4.7,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['럭셔리', '추천']
+    },
+    {
+      name: '남산타워뷰 호텔',
+      description: '남산타워가 보이는 환상적인 뷰를 자랑하는 호텔입니다.',
+      location: {
+        address: '서울특별시 중구 남산공원길 125',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5512, lng: 126.9880 }
+      },
+      images: hotelImages.seoul.slice(2),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '스파', '피트니스'],
+      hotelType: 'luxury',
+      rating: 4.8,
+      reviewCount: 203,
+      status: 'active',
+      tags: ['인기', '럭셔리', '커플']
+    },
+    {
+      name: '강북 프리미엄 호텔',
+      description: '경복궁과 인사동 근처의 전통과 현대가 공존하는 호텔입니다.',
+      location: {
+        address: '서울특별시 종로구 인사동길 45',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5730, lng: 126.9851 }
+      },
+      images: hotelImages.seoul,
+      owner: business1._id,
+      amenities: ['WiFi', '조식', '비즈니스'],
+      hotelType: 'business',
+      rating: 4.5,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '잠실 레이크사이드 호텔',
+      description: '롯데월드와 석촌호수가 가까운 가족 여행에 최적화된 호텔입니다.',
+      location: {
+        address: '서울특별시 송파구 올림픽로 240',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5145, lng: 127.1029 }
+      },
+      images: hotelImages.seoul.slice(1),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '수영장', '키즈클럽', '레스토랑'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 218,
+      status: 'active',
+      tags: ['가족', '인기']
+    },
+    // 부산 호텔 (7개)
     {
       name: '해운대 비치 리조트',
       description: '해운대 해수욕장 정면에 위치한 프리미엄 리조트입니다. 환상적인 오션뷰를 제공합니다.',
@@ -215,10 +311,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.busan,
       owner: business2._id,
-      amenities: ['무료 WiFi', '무료 주차', '야외 수영장', '피트니스', '레스토랑', '바', '스파', '오션뷰'],
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '반려동물'],
+      hotelType: 'resort',
       rating: 4.9,
       reviewCount: 312,
-      status: 'active'
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족', '반려동물']
     },
     {
       name: '광안리 호텔 앤 스파',
@@ -231,10 +329,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.busan.slice(1),
       owner: business2._id,
-      amenities: ['무료 WiFi', '무료 주차', '스파', '레스토랑', '루프탑', '오션뷰'],
+      amenities: ['WiFi', '주차', '스파', '레스토랑', '조식'],
+      hotelType: 'resort',
       rating: 4.7,
       reviewCount: 198,
-      status: 'active'
+      status: 'active',
+      tags: ['인기', '커플', '특가']
     },
     {
       name: '부산역 비즈니스 호텔',
@@ -247,12 +347,86 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.busan.slice(2),
       owner: business2._id,
-      amenities: ['무료 WiFi', '조식 포함', '24시간 프런트', '비즈니스 센터'],
+      amenities: ['WiFi', '조식', '비즈니스', '공항셔틀'],
+      hotelType: 'business',
       rating: 4.3,
       reviewCount: 124,
-      status: 'active'
+      status: 'active',
+      tags: ['비즈니스', '추천']
     },
-    // 제주 호텔
+    {
+      name: '송도 베이 호텔',
+      description: '송도 해수욕장과 케이블카가 가까운 가족 단위 여행객에게 인기있는 호텔입니다.',
+      location: {
+        address: '부산광역시 서구 암남공원로 185',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.0781, lng: 129.0144 }
+      },
+      images: hotelImages.busan,
+      owner: business2._id,
+      amenities: ['WiFi', '주차', '레스토랑', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.5,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['가족', '주말특가']
+    },
+    {
+      name: '센텀시티 럭셔리 호텔',
+      description: '부산 최대 쇼핑몰 신세계백화점과 영화의전당이 인접한 프리미엄 호텔입니다.',
+      location: {
+        address: '부산광역시 해운대구 센텀중앙로 78',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.1689, lng: 129.1313 }
+      },
+      images: hotelImages.busan.slice(1),
+      owner: business2._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.8,
+      reviewCount: 267,
+      status: 'active',
+      tags: ['럭셔리', '비즈니스', '인기']
+    },
+    {
+      name: '남포동 문화 호텔',
+      description: '자갈치시장과 국제시장이 가까운 부산 문화의 중심지 호텔입니다.',
+      location: {
+        address: '부산광역시 중구 남포길 34',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.0971, lng: 129.0294 }
+      },
+      images: hotelImages.busan.slice(2),
+      owner: business2._id,
+      amenities: ['WiFi', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 133,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '기장 온천 리조트',
+      description: '해동 용궁사와 기장 해안도로가 가까운 온천 리조트입니다.',
+      location: {
+        address: '부산광역시 기장군 기장읍 온천로 123',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.2443, lng: 129.2192 }
+      },
+      images: hotelImages.busan,
+      owner: business2._id,
+      amenities: ['WiFi', '주차', '온천', '스파', '레스토랑', '수영장'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 189,
+      status: 'active',
+      tags: ['특가', '가족']
+    },
+    // 제주 호텔 (6개)
     {
       name: '제주 오션 뷰 리조트',
       description: '제주 서귀포 앞바다가 한눈에 보이는 프리미엄 리조트입니다. 가족 단위 여행객에게 최고입니다.',
@@ -264,10 +438,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.jeju,
       owner: business3._id,
-      amenities: ['무료 WiFi', '무료 주차', '야외 수영장', '키즈클럽', '레스토랑', '바', '스파', '골프장'],
+      amenities: ['WiFi', '주차', '수영장', '키즈클럽', '레스토랑', '바', '스파', '골프장', '반려동물'],
+      hotelType: 'resort',
       rating: 4.9,
       reviewCount: 428,
-      status: 'active'
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족', '반려동물']
     },
     {
       name: '제주시티 호텔',
@@ -280,10 +456,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.jeju.slice(1),
       owner: business3._id,
-      amenities: ['무료 WiFi', '무료 주차', '레스토랑', '피트니스', '24시간 프런트'],
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스', '비즈니스'],
+      hotelType: 'business',
       rating: 4.4,
       reviewCount: 167,
-      status: 'active'
+      status: 'active',
+      tags: ['비즈니스', '추천']
     },
     {
       name: '한라산 뷰 펜션',
@@ -296,12 +474,68 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.jeju.slice(2),
       owner: business3._id,
-      amenities: ['무료 WiFi', '무료 주차', '바비큐', '테라스', '산책로'],
+      amenities: ['WiFi', '주차', '바비큐', '테라스', '반려동물'],
+      hotelType: 'pension',
       rating: 4.6,
       reviewCount: 89,
-      status: 'active'
+      status: 'active',
+      tags: ['반려동물', '추천']
     },
-    // 인천 호텔
+    {
+      name: '성산일출봉 리조트',
+      description: '성산일출봉에서 가까운 환상적인 일출을 볼 수 있는 리조트입니다.',
+      location: {
+        address: '제주특별자치도 서귀포시 성산읍 일출로 234',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.4584, lng: 126.9426 }
+      },
+      images: hotelImages.jeju,
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.8,
+      reviewCount: 245,
+      status: 'active',
+      tags: ['인기', '가족', '특가']
+    },
+    {
+      name: '애월 해안 펜션',
+      description: '애월 해안도로의 아름다운 카페거리와 가까운 감성 펜션입니다.',
+      location: {
+        address: '제주특별자치도 제주시 애월읍 애월해안로 567',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.4627, lng: 126.3197 }
+      },
+      images: hotelImages.jeju.slice(1),
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '바비큐', '테라스', '반려동물'],
+      hotelType: 'pension',
+      rating: 4.7,
+      reviewCount: 176,
+      status: 'active',
+      tags: ['커플', '반려동물', '주말특가']
+    },
+    {
+      name: '제주공항 호텔',
+      description: '제주공항에서 5분 거리의 편리한 호텔입니다. 늦은 도착이나 이른 출발에 최적입니다.',
+      location: {
+        address: '제주특별자치도 제주시 공항로 10',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.5068, lng: 126.4930 }
+      },
+      images: hotelImages.jeju.slice(2),
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '조식', '공항셔틀'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['추천']
+    },
+    // 인천 호텔 (4개)
     {
       name: '인천공항 트랜짓 호텔',
       description: '인천국제공항에서 도보 5분 거리의 환승 호텔입니다. 이른 아침 비행이나 늦은 도착에 최적입니다.',
@@ -313,10 +547,12 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.incheon,
       owner: business1._id,
-      amenities: ['무료 WiFi', '24시간 프런트', '공항 셔틀', '짐 보관', '조식 포함'],
+      amenities: ['WiFi', '조식', '공항셔틀', '비즈니스'],
+      hotelType: 'business',
       rating: 4.5,
       reviewCount: 276,
-      status: 'active'
+      status: 'active',
+      tags: ['비즈니스', '추천']
     },
     {
       name: '송도 센트럴파크 호텔',
@@ -329,10 +565,48 @@ const seedHotels = async (users) => {
       },
       images: hotelImages.incheon.slice(1),
       owner: business1._id,
-      amenities: ['무료 WiFi', '무료 주차', '수영장', '피트니스', '레스토랑', '바', '비즈니스 센터'],
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '비즈니스', '키즈클럽'],
+      hotelType: 'luxury',
       rating: 4.7,
       reviewCount: 143,
-      status: 'active'
+      status: 'active',
+      tags: ['럭셔리', '비즈니스', '가족']
+    },
+    {
+      name: '월미도 씨뷰 호텔',
+      description: '월미도 테마파크와 바다가 보이는 가족 여행객에게 인기있는 호텔입니다.',
+      location: {
+        address: '인천광역시 중구 월미문화로 123',
+        city: '인천',
+        country: '대한민국',
+        coordinates: { lat: 37.4767, lng: 126.5933 }
+      },
+      images: hotelImages.incheon.slice(2),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '레스토랑', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.4,
+      reviewCount: 118,
+      status: 'active',
+      tags: ['가족', '주말특가']
+    },
+    {
+      name: '인천차이나타운 호텔',
+      description: '차이나타운과 자유공원이 가까운 문화 체험 호텔입니다.',
+      location: {
+        address: '인천광역시 중구 차이나타운로 45',
+        city: '인천',
+        country: '대한민국',
+        coordinates: { lat: 37.4759, lng: 126.6175 }
+      },
+      images: hotelImages.incheon,
+      owner: business1._id,
+      amenities: ['WiFi', '조식', '레스토랑'],
+      hotelType: 'boutique',
+      rating: 4.3,
+      reviewCount: 94,
+      status: 'active',
+      tags: ['커플', '신규']
     }
   ];
 
@@ -347,69 +621,179 @@ const seedRooms = async (hotels) => {
   const rooms = [];
 
   for (const hotel of hotels) {
-    // 각 호텔마다 3-4개의 객실 타입 생성
+    // 각 호텔마다 4-6개의 객실 타입 생성
     const hotelRooms = [
       {
         hotel: hotel._id,
         name: '스탠다드 더블',
         type: 'Standard',
-        description: '편안한 더블 베드가 있는 아늑한 객실입니다.',
+        roomType: 'standard',
+        bedType: 'double',
+        viewType: 'city',
+        description: '편안한 더블 베드가 있는 아늑한 객실입니다. 비즈니스와 레저 여행객 모두에게 적합합니다.',
         price: Math.floor(Math.random() * 50000) + 80000, // 80,000 - 130,000
         capacity: { adults: 2, children: 1 },
         size: 25,
         beds: '더블 베드 1개',
         images: roomImages.standard,
-        amenities: ['무료 WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어'],
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '업무용 책상'],
         totalRooms: 10,
         availableRooms: Math.floor(Math.random() * 5) + 5,
         status: 'available'
       },
       {
         hotel: hotel._id,
-        name: '디럭스 트윈',
-        type: 'Deluxe',
-        description: '널찍한 공간에 트윈 베드가 있는 고급 객실입니다.',
-        price: Math.floor(Math.random() * 70000) + 120000, // 120,000 - 190,000
-        capacity: { adults: 2, children: 2 },
-        size: 35,
+        name: '스탠다드 트윈',
+        type: 'Standard',
+        roomType: 'standard',
+        bedType: 'twin',
+        viewType: 'city',
+        description: '2개의 싱글 베드가 있는 편안한 객실입니다. 친구나 동료와의 여행에 적합합니다.',
+        price: Math.floor(Math.random() * 50000) + 85000, // 85,000 - 135,000
+        capacity: { adults: 2, children: 1 },
+        size: 26,
         beds: '싱글 베드 2개',
-        images: roomImages.deluxe,
-        amenities: ['무료 WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상'],
+        images: roomImages.standard,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '업무용 책상'],
         totalRooms: 8,
         availableRooms: Math.floor(Math.random() * 4) + 3,
         status: 'available'
       },
       {
         hotel: hotel._id,
-        name: '이그제큐티브 스위트',
+        name: '디럭스 더블',
+        type: 'Deluxe',
+        roomType: 'deluxe',
+        bedType: 'queen',
+        viewType: 'city',
+        description: '널찍한 공간과 퀸 베드가 있는 고급 객실입니다. 편안한 휴식을 위한 최적의 선택입니다.',
+        price: Math.floor(Math.random() * 60000) + 120000, // 120,000 - 180,000
+        capacity: { adults: 2, children: 2 },
+        size: 32,
+        beds: '퀸 베드 1개',
+        images: roomImages.deluxe,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
+        totalRooms: 8,
+        availableRooms: Math.floor(Math.random() * 4) + 3,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '디럭스 트윈',
+        type: 'Deluxe',
+        roomType: 'deluxe',
+        bedType: 'twin',
+        viewType: 'mountain',
+        description: '널찍한 공간에 트윈 베드가 있는 고급 객실입니다. 가족 여행에 적합합니다.',
+        price: Math.floor(Math.random() * 60000) + 125000, // 125,000 - 185,000
+        capacity: { adults: 2, children: 2 },
+        size: 35,
+        beds: '싱글 베드 2개',
+        images: roomImages.deluxe,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
+        totalRooms: 6,
+        availableRooms: Math.floor(Math.random() * 3) + 2,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '프리미엄 스위트',
         type: 'Suite',
-        description: '별도의 거실이 있는 프리미엄 스위트룸입니다.',
+        roomType: 'suite',
+        bedType: 'king',
+        viewType: 'city',
+        description: '별도의 거실과 킹 베드가 있는 프리미엄 스위트룸입니다. 특별한 날을 위한 최고의 선택입니다.',
         price: Math.floor(Math.random() * 100000) + 200000, // 200,000 - 300,000
         capacity: { adults: 3, children: 2 },
         size: 50,
         beds: '킹 베드 1개 + 소파베드',
         images: roomImages.suite,
-        amenities: ['무료 WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실'],
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실'],
         totalRooms: 5,
         availableRooms: Math.floor(Math.random() * 3) + 2,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '패밀리 룸',
+        type: 'Suite',
+        roomType: 'suite',
+        bedType: 'king',
+        viewType: 'garden',
+        description: '가족 단위 여행객을 위한 넓은 객실입니다. 킹 베드와 더블 베드가 있습니다.',
+        price: Math.floor(Math.random() * 80000) + 180000, // 180,000 - 260,000
+        capacity: { adults: 4, children: 2 },
+        size: 45,
+        beds: '킹 베드 1개 + 더블 베드 1개',
+        images: roomImages.suite.slice(1),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
+        totalRooms: 4,
+        availableRooms: Math.floor(Math.random() * 2) + 1,
         status: 'available'
       }
     ];
 
-    // 일부 호텔에는 추가 객실 타입
-    if (Math.random() > 0.5) {
+    // 해변/오션뷰가 있는 호텔에는 오션뷰 객실 추가
+    if (hotel.location.city === '부산' || hotel.location.city === '제주') {
       hotelRooms.push({
         hotel: hotel._id,
         name: '프리미엄 오션뷰',
         type: 'Premium',
-        description: '탁 트인 바다 전망을 감상할 수 있는 최고급 객실입니다.',
+        roomType: 'premium',
+        bedType: 'king',
+        viewType: 'ocean',
+        description: '탁 트인 바다 전망을 감상할 수 있는 최고급 객실입니다. 발코니에서 일출/일몼을 즐기세요.',
         price: Math.floor(Math.random() * 150000) + 250000, // 250,000 - 400,000
         capacity: { adults: 4, children: 2 },
         size: 65,
-        beds: '킹 베드 1개 + 더블 베드 1개',
+        beds: '킹 베드 1개 + 소파베드',
         images: roomImages.suite.slice(1),
-        amenities: ['무료 WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '오션뷰', '발코니'],
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '발코니'],
         totalRooms: 3,
+        availableRooms: Math.floor(Math.random() * 2) + 1,
+        status: 'available'
+      });
+    }
+
+    // 스파/온천이 있는 호텔에는 스파 스위트 추가
+    if (hotel.amenities?.includes('스파')) {
+      hotelRooms.push({
+        hotel: hotel._id,
+        name: '스파 스위트',
+        type: 'Premium',
+        roomType: 'premium',
+        bedType: 'king',
+        viewType: 'city',
+        description: '객실 내 스파 욕조와 사우나가 있는 럭셔리 스위트입니다. 완벽한 힐링을 경험하세요.',
+        price: Math.floor(Math.random() * 180000) + 300000, // 300,000 - 480,000
+        capacity: { adults: 2, children: 1 },
+        size: 70,
+        beds: '킹 베드 1개',
+        images: roomImages.suite,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '스파', '사우나', '거실', '발코니'],
+        totalRooms: 2,
+        availableRooms: Math.floor(Math.random() * 1) + 1,
+        status: 'available'
+      });
+    }
+
+    // 비즈니스 센터가 있는 호텔에는 비즈니스 룸 추가
+    if (hotel.amenities?.includes('비즈니스')) {
+      hotelRooms.push({
+        hotel: hotel._id,
+        name: '비즈니스 이그제큐티브',
+        type: 'Deluxe',
+        roomType: 'deluxe',
+        bedType: 'king',
+        viewType: 'city',
+        description: '출장객을 위한 최적의 객실입니다. 넓은 업무 공간과 프린터가 제공됩니다.',
+        price: Math.floor(Math.random() * 70000) + 150000, // 150,000 - 220,000
+        capacity: { adults: 2, children: 0 },
+        size: 38,
+        beds: '킹 베드 1개',
+        images: roomImages.deluxe.slice(1),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '대형 업무용 책상', '프린터', '팩스'],
+        totalRooms: 4,
         availableRooms: Math.floor(Math.random() * 2) + 1,
         status: 'available'
       });

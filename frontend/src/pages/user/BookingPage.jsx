@@ -25,7 +25,8 @@ export default function BookingPage() {
       return;
     }
     loadRoomDetails();
-  }, [roomId, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, user, navigate]);
 
   const loadRoomDetails = async () => {
     try {
@@ -35,13 +36,15 @@ export default function BookingPage() {
       setHotel(response.data.hotel);
     } catch (error) {
       console.error('Failed to load room:', error);
+      alert('객실 정보를 불러오는데 실패했습니다.');
+      navigate('/search');
     } finally {
       setLoading(false);
     }
   };
 
   const calculateTotalPrice = () => {
-    if (!bookingData.checkIn || !bookingData.checkOut || !room) return 0;
+    if (!bookingData.checkIn || !bookingData.checkOut || !room || !room.price) return 0;
     
     const checkIn = new Date(bookingData.checkIn);
     const checkOut = new Date(bookingData.checkOut);
@@ -53,18 +56,54 @@ export default function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!bookingData.checkIn || !bookingData.checkOut) {
+      alert('체크인 및 체크아웃 날짜를 선택해주세요.');
+      return;
+    }
+
+    const checkIn = new Date(bookingData.checkIn);
+    const checkOut = new Date(bookingData.checkOut);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (checkIn < today) {
+      alert('체크인 날짜는 오늘 이후여야 합니다.');
+      return;
+    }
+    
+    if (checkOut <= checkIn) {
+      alert('체크아웃 날짜는 체크인 날짜보다 늦어야 합니다.');
+      return;
+    }
+
+    if (!room || !room.price) {
+      alert('객실 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+      return;
+    }
+    
     try {
+      const hotelId = hotel?._id || hotel;
+      
+      if (!hotelId) {
+        alert('호텔 정보를 찾을 수 없습니다.');
+        return;
+      }
+      
       const response = await api.post('/bookings', {
-        roomId: room._id,
+        hotel: hotelId,
+        room: room._id,
         checkIn: bookingData.checkIn,
         checkOut: bookingData.checkOut,
         guests: bookingData.guests,
-        usedPoints: 0
+        specialRequests: bookingData.specialRequests,
+        totalPrice: calculateTotalPrice(),
+        finalPrice: calculateTotalPrice()
       });
 
       navigate(`/payment/${response.data._id}`);
     } catch (error) {
-      alert('예약 생성 중 오류가 발생했습니다.');
+      console.error('Booking error:', error);
+      alert(error.response?.data?.message || '예약 생성 중 오류가 발생했습니다.');
     }
   };
 

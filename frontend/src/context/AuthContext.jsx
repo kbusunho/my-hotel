@@ -24,10 +24,14 @@ export function AuthProvider({ children }) {
   const loadUser = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/me`);
-      setUser(response.data);
+      if (response.data) {
+        setUser(response.data);
+      }
     } catch (error) {
+      console.error('사용자 정보 로드 실패:', error);
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
+      setUser(null);
     } finally {
       setLoading(false);
     }

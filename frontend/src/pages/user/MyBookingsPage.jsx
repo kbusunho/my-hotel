@@ -1,19 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import PrintableBooking from '../../components/PrintableBooking';
 import api from '../../api/axios';
-import { FaCalendar, FaUsers, FaTimes } from 'react-icons/fa';
+import { FaCalendar, FaUsers, FaTimes, FaEdit } from 'react-icons/fa';
+import toast from '../../utils/toast';
 
 export default function MyBookingsPage() {
   const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
+  const [showModifyModal, setShowModifyModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [modifyData, setModifyData] = useState({
+    checkIn: '',
+    checkOut: '',
+    adults: 2,
+    children: 0,
+    specialRequests: ''
+  });
 
   useEffect(() => {
     if (user) {
       loadBookings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const loadBookings = async () => {
@@ -23,6 +35,8 @@ export default function MyBookingsPage() {
       setBookings(response.data);
     } catch (error) {
       console.error('Failed to load bookings:', error);
+      toast.error('예약 목록을 불러오는데 실패했습니다.');
+      setBookings([]);
     } finally {
       setLoading(false);
     }
@@ -32,11 +46,45 @@ export default function MyBookingsPage() {
     if (!confirm('정말 예약을 취소하시겠습니까?')) return;
 
     try {
-      await api.post(`/bookings/${bookingId}/cancel`);
-      alert('예약이 취소되었습니다.');
+      await api.put(`/bookings/${bookingId}/cancel`);
+      toast.success('예약이 취소되었습니다.');
       loadBookings();
     } catch (error) {
-      alert('예약 취소 중 오류가 발생했습니다.');
+      toast.error(error.response?.data?.message || '예약 취소 중 오류가 발생했습니다.');
+    }
+  };
+
+  const handleOpenModify = (booking) => {
+    setSelectedBooking(booking);
+    setModifyData({
+      checkIn: booking.checkIn.split('T')[0],
+      checkOut: booking.checkOut.split('T')[0],
+      adults: booking.guests?.adults || 2,
+      children: booking.guests?.children || 0,
+      specialRequests: booking.specialRequests || ''
+    });
+    setShowModifyModal(true);
+  };
+
+  const handleModifyBooking = async () => {
+    if (!selectedBooking) return;
+
+    try {
+      await api.put(`/bookings/${selectedBooking._id}/modify`, {
+        checkIn: modifyData.checkIn,
+        checkOut: modifyData.checkOut,
+        guests: {
+          adults: modifyData.adults,
+          children: modifyData.children
+        },
+        specialRequests: modifyData.specialRequests,
+        reason: '사용자 요청'
+      });
+      toast.success('예약이 변경되었습니다.');
+      setShowModifyModal(false);
+      loadBookings();
+    } catch (error) {
+      toast.error(error.response?.data?.message || '예약 변경 중 오류가 발생했습니다.');
     }
   };
 
@@ -136,7 +184,7 @@ export default function MyBookingsPage() {
                       <div className="text-gray-600 mb-1">투숙객</div>
                       <div className="font-semibold flex items-center">
                         <FaUsers className="mr-2" />
-                        성인 {booking.guests?.adults}명
+                        성인 {booking.guests?.adults || 0}명
                       </div>
                     </div>
                   </div>
@@ -145,26 +193,36 @@ export default function MyBookingsPage() {
                     <div>
                       <div className="text-gray-600 text-sm">결제 금액</div>
                       <div className="text-2xl font-bold text-sage-600">
-                        ₩{booking.finalPrice.toLocaleString()}
+                        ₩{booking.finalPrice?.toLocaleString() || 0}
                       </div>
                     </div>
 
                     <div className="flex space-x-3">
                       <Link
-                        to={`/hotels/${booking.hotel._id}`}
+                        to={`/hotels/${booking.hotel?._id || booking.hotel}`}
                         className="px-4 py-2 border border-sage-500 text-sage-600 rounded-lg hover:bg-sage-50"
                       >
                         상세보기
                       </Link>
                       
                       {booking.bookingStatus === 'confirmed' && (
-                        <button
-                          onClick={() => handleCancelBooking(booking._id)}
-                          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center"
-                        >
-                          <FaTimes className="mr-2" />
-                          예약취소
-                        </button>
+                        <>
+                          <PrintableBooking booking={booking} />
+                          <button
+                            onClick={() => handleOpenModify(booking)}
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center"
+                          >
+                            <FaEdit className="mr-2" />
+                            예약변경
+                          </button>
+                          <button
+                            onClick={() => handleCancelBooking(booking._id)}
+                            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center"
+                          >
+                            <FaTimes className="mr-2" />
+                            예약취소
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>
@@ -174,6 +232,117 @@ export default function MyBookingsPage() {
           ))
         )}
       </div>
+
+      {/* 예약 변경 모달 */}
+      {showModifyModal && selectedBooking && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
+              <h2 className="text-2xl font-bold">예약 변경</h2>
+              <button onClick={() => setShowModifyModal(false)} className="text-gray-500 hover:text-gray-700">
+                <FaTimes size={24} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="font-semibold mb-2">{selectedBooking.hotel?.name}</h3>
+                <p className="text-sm text-gray-600">{selectedBooking.room?.name}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    체크인
+                  </label>
+                  <input
+                    type="date"
+                    value={modifyData.checkIn}
+                    onChange={(e) => setModifyData({ ...modifyData, checkIn: e.target.value })}
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sage-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    체크아웃
+                  </label>
+                  <input
+                    type="date"
+                    value={modifyData.checkOut}
+                    onChange={(e) => setModifyData({ ...modifyData, checkOut: e.target.value })}
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sage-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    성인
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="10"
+                    value={modifyData.adults}
+                    onChange={(e) => setModifyData({ ...modifyData, adults: parseInt(e.target.value) })}
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sage-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    아동
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    value={modifyData.children}
+                    onChange={(e) => setModifyData({ ...modifyData, children: parseInt(e.target.value) })}
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sage-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  특별 요청사항
+                </label>
+                <textarea
+                  value={modifyData.specialRequests}
+                  onChange={(e) => setModifyData({ ...modifyData, specialRequests: e.target.value })}
+                  rows={4}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-sage-500"
+                  placeholder="특별히 요청하실 사항이 있으시면 입력해주세요."
+                />
+              </div>
+
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <p className="text-sm text-yellow-800">
+                  ⚠️ 예약 변경 시 가격이 변동될 수 있습니다. 변경 후 최종 가격을 확인해주세요.
+                </p>
+              </div>
+
+              <div className="flex justify-end space-x-4 pt-4 border-t">
+                <button
+                  onClick={() => setShowModifyModal(false)}
+                  className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={handleModifyBooking}
+                  className="px-6 py-2 bg-sage-600 text-white rounded-lg hover:bg-sage-700"
+                >
+                  변경 완료
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
