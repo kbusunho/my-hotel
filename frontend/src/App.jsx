@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
@@ -6,6 +6,7 @@ import { CompareProvider } from './context/CompareContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import { useState, useEffect } from 'react';
 import axios from './api/axios';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // User Pages
 import UserLayout from './layouts/UserLayout';
@@ -21,6 +22,8 @@ import MyBookingsPage from './pages/user/MyBookingsPage';
 import FavoritesPage from './pages/user/FavoritesPage';
 import SettingsPage from './pages/user/SettingsPage';
 import CompareHotelsPage from './pages/user/CompareHotelsPage';
+import RecentlyViewedPage from './pages/user/RecentlyViewedPage';
+import NotificationsPage from './pages/user/NotificationsPage';
 
 // Info Pages
 import AboutPage from './pages/info/AboutPage';
@@ -65,6 +68,7 @@ import MaintenancePage from './pages/MaintenancePage';
 
 function App() {
   const { user } = useAuth();
+  const location = useLocation();
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [maintenanceMessage, setMaintenanceMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -108,7 +112,8 @@ function App() {
       <ThemeProvider>
         <LanguageProvider>
           <CompareProvider>
-            <Routes>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
       {/* Auth Routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -129,6 +134,8 @@ function App() {
         <Route path="my-bookings" element={<MyBookingsPage />} />
         <Route path="favorites" element={<FavoritesPage />} />
         <Route path="compare" element={<CompareHotelsPage />} />
+        <Route path="recently-viewed" element={<RecentlyViewedPage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
         <Route path="settings" element={<SettingsPage />} />
         
         {/* Info Pages */}
@@ -164,7 +171,8 @@ function App() {
         <Route path="hotel-tags" element={<HotelTags />} />
         <Route path="settings" element={<SystemSettings />} />
       </Route>
-        </Routes>
+              </Routes>
+            </AnimatePresence>
           </CompareProvider>
       </LanguageProvider>
     </ThemeProvider>

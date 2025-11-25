@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ActivityLog = require('../models/ActivityLog');
+const ActivityLog = require('../common/ActivityLogModel');
 const { authenticate, authorize } = require('../middleware/auth');
 
 // 활동 로그 목록 (관리자 전용)

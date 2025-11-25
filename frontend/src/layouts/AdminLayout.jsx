@@ -26,8 +26,8 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex transition-colors">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-800 dark:bg-gray-800 text-white">
-        <div className="p-6">
+      <aside className="w-64 bg-slate-800 dark:bg-gray-800 text-white flex flex-col">
+        <div className="p-6 flex-1 overflow-y-auto">
           <div className="flex items-center space-x-2 mb-8">
             <FaCog className="text-2xl" />
             <span className="text-xl font-bold">관리자 대시보드</span>
@@ -74,15 +74,16 @@ export default function AdminLayout() {
           </nav>
         </div>
 
-        <div className="absolute bottom-0 w-64 p-6 border-t border-slate-700">
+        {/* 하단 사용자 정보 - flex-shrink-0로 고정 */}
+        <div className="flex-shrink-0 p-6 border-t border-slate-700 bg-slate-800 dark:bg-gray-800">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold">{user?.name}</p>
+            <div className="min-w-0 flex-1 mr-3">
+              <p className="font-semibold truncate">{user?.name}</p>
               <p className="text-sm text-gray-400">관리자</p>
             </div>
             <button
               onClick={logout}
-              className="p-2 hover:bg-slate-700 rounded-lg"
+              className="flex-shrink-0 p-2 hover:bg-slate-700 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title="로그아웃"
             >
               <FaSignOutAlt />

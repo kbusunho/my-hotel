@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import PrintableBooking from '../../components/PrintableBooking';
 import api from '../../api/axios';
 import { FaCalendar, FaUsers, FaTimes, FaEdit } from 'react-icons/fa';
+import toast from '../../utils/toast';
 
 export default function MyBookingsPage() {
   const { user } = useAuth();
@@ -34,7 +35,7 @@ export default function MyBookingsPage() {
       setBookings(response.data);
     } catch (error) {
       console.error('Failed to load bookings:', error);
-      alert('예약 목록을 불러오는데 실패했습니다.');
+      toast.error('예약 목록을 불러오는데 실패했습니다.');
       setBookings([]);
     } finally {
       setLoading(false);
@@ -46,10 +47,10 @@ export default function MyBookingsPage() {
 
     try {
       await api.put(`/bookings/${bookingId}/cancel`);
-      alert('예약이 취소되었습니다.');
+      toast.success('예약이 취소되었습니다.');
       loadBookings();
     } catch (error) {
-      alert(error.response?.data?.message || '예약 취소 중 오류가 발생했습니다.');
+      toast.error(error.response?.data?.message || '예약 취소 중 오류가 발생했습니다.');
     }
   };
 
@@ -79,11 +80,11 @@ export default function MyBookingsPage() {
         specialRequests: modifyData.specialRequests,
         reason: '사용자 요청'
       });
-      alert('예약이 변경되었습니다.');
+      toast.success('예약이 변경되었습니다.');
       setShowModifyModal(false);
       loadBookings();
     } catch (error) {
-      alert(error.response?.data?.message || '예약 변경 중 오류가 발생했습니다.');
+      toast.error(error.response?.data?.message || '예약 변경 중 오류가 발생했습니다.');
     }
   };
 

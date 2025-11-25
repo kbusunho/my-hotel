@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/axios';
 import { FaSearch, FaMapMarkerAlt, FaStar, FaClock } from 'react-icons/fa';
+import LazyImage from '../../components/LazyImage';
+import { motion } from 'framer-motion';
 
 // 배경 이미지 배열 (고급 호텔 이미지)
 const heroBackgrounds = [
@@ -225,10 +227,17 @@ export default function HomePage() {
         </p>
 
         <div className="grid grid-cols-4 gap-6">
-          {featuredHotels.slice(0, 4).map((hotel) => (
-            <Link key={hotel._id} to={`/hotels/${hotel._id}`} className="card group dark:bg-gray-800 dark:border-gray-700">
+          {featuredHotels.slice(0, 4).map((hotel, index) => (
+            <motion.div
+              key={hotel._id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ scale: 1.03 }}
+            >
+              <Link to={`/hotels/${hotel._id}`} className="card group dark:bg-gray-800 dark:border-gray-700">
               <div className="relative h-48 overflow-hidden">
-                <img
+                <LazyImage
                   src={hotel.images?.[0] || '/placeholder-hotel.jpg'}
                   alt={hotel.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
@@ -253,6 +262,7 @@ export default function HomePage() {
                 </button>
               </div>
             </Link>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -278,7 +288,7 @@ export default function HomePage() {
               return (
                 <Link key={item._id} to={`/hotels/${hotel._id}`} className="card group dark:bg-gray-800 dark:border-gray-700">
                   <div className="relative h-48 overflow-hidden">
-                    <img
+                    <LazyImage
                       src={hotel.images?.[0] || '/placeholder-hotel.jpg'}
                       alt={hotel.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"

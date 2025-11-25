@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
-const SystemSettings = require('../models/SystemSettings');
+const SystemSettings = require('../common/SystemSettingsModel');
 
 // GET /api/system-settings - 시스템 설정 조회 (공개)
 router.get('/', async (req, res) => {

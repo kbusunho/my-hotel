@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ViewHistory = require('../models/ViewHistory');
+const ViewHistory = require('../common/ViewHistoryModel');
 const { authenticate } = require('../middleware/auth');
 
 // 조회 이력 추가

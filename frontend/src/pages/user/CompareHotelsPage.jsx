@@ -1,4 +1,4 @@
-import { useCompare } from '../context/CompareContext';
+import { useCompare } from '../../context/CompareContext';
 import { Link } from 'react-router-dom';
 import { FaTimes, FaStar, FaMapMarkerAlt, FaWifi, FaParking, FaSwimmingPool, FaDumbbell, FaSpa, FaUtensils, FaCheck, FaTimes as FaNo } from 'react-icons/fa';
 

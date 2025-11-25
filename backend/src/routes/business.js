@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Hotel = require('../models/Hotel');
-const Room = require('../models/Room');
-const Booking = require('../models/Booking');
-const Review = require('../models/Review');
-const Coupon = require('../models/Coupon');
+const Hotel = require('../hotel/model');
+const Room = require('../room/model');
+const Booking = require('../reservation/model');
+const Review = require('../review/model');
+const Coupon = require('../coupon/model');
 const { authenticate, authorize, checkBusinessApproval } = require('../middleware/auth');
 
 // 모든 라우트에 사업자 권한 체크
@@ -251,7 +251,7 @@ router.put('/bookings/:id/reject', async (req, res) => {
     await booking.save();
 
     // 객실 재고 복구
-    const Room = require('../models/Room');
+    const Room = require('../room/model');
     await Room.findByIdAndUpdate(booking.room, {
       $inc: { availableRooms: 1 }
     });

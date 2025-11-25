@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useRecentSearches, RecentSearches } from '../../hooks/useRecentSearches.jsx';
 import api from '../../api/axios';
 import { FaStar, FaMapMarkerAlt, FaWifi, FaParking, FaSwimmingPool, FaHeart } from 'react-icons/fa';
+import LazyImage from '../../components/LazyImage';
 
 export default function SearchPage() {
   const { user } = useAuth();
@@ -166,24 +167,62 @@ export default function SearchPage() {
       <div className="grid grid-cols-12 gap-8">
         {/* Filters Sidebar */}
         <aside className="col-span-3">
-          <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
-            <h2 className="text-xl font-bold mb-6">Filters</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 sticky top-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold dark:text-white">필터</h2>
+              <button
+                onClick={() => setFilters({
+                  priceRange: [0, 500000],
+                  rating: 0,
+                  hotelType: [],
+                  amenities: [],
+                  roomType: [],
+                  bedType: []
+                })}
+                className="text-sm text-sage-600 dark:text-sage-400 hover:underline"
+              >
+                초기화
+              </button>
+            </div>
 
             {/* Price Range */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">Price</h3>
-              <div className="space-y-2">
+              <h3 className="font-semibold mb-3 dark:text-white">가격 범위</h3>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="number"
+                    min="0"
+                    max="500000"
+                    step="10000"
+                    value={filters.priceRange[0]}
+                    onChange={(e) => setFilters({...filters, priceRange: [parseInt(e.target.value), filters.priceRange[1]]})}
+                    className="w-24 px-3 py-2 border dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    placeholder="최소"
+                  />
+                  <span className="dark:text-gray-400">~</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="500000"
+                    step="10000"
+                    value={filters.priceRange[1]}
+                    onChange={(e) => setFilters({...filters, priceRange: [filters.priceRange[0], parseInt(e.target.value)]})}
+                    className="w-24 px-3 py-2 border dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    placeholder="최대"
+                  />
+                </div>
                 <input
                   type="range"
                   min="0"
                   max="500000"
                   step="10000"
                   value={filters.priceRange[1]}
-                  onChange={(e) => setFilters({...filters, priceRange: [0, parseInt(e.target.value)]})}
-                  className="w-full"
+                  onChange={(e) => setFilters({...filters, priceRange: [filters.priceRange[0], parseInt(e.target.value)]})}
+                  className="w-full accent-sage-500"
                 />
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>₩0</span>
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                  <span>₩{filters.priceRange[0].toLocaleString()}</span>
                   <span>₩{filters.priceRange[1].toLocaleString()}</span>
                 </div>
               </div>
@@ -191,21 +230,21 @@ export default function SearchPage() {
 
             {/* Rating */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">Rating</h3>
-              <div className="space-y-2">
-                {[5, 4, 3, 2, 1].map((rating) => (
+              <h3 className="font-semibold mb-3 dark:text-white">평점</h3>
+              <div className="space-y-2">{[5, 4, 3, 2, 1].map((rating) => (
                   <label key={rating} className="flex items-center space-x-2 cursor-pointer">
                     <input
                       type="radio"
                       name="rating"
                       checked={filters.rating === rating}
                       onChange={() => setFilters({...filters, rating})}
+                      className="accent-sage-500"
                     />
                     <div className="flex items-center">
                       {[...Array(rating)].map((_, i) => (
                         <FaStar key={i} className="text-yellow-500 text-sm" />
                       ))}
-                      <span className="ml-2 text-sm">{rating}+ stars</span>
+                      <span className="ml-2 text-sm dark:text-gray-300">{rating}+ stars</span>
                     </div>
                   </label>
                 ))}
@@ -214,7 +253,7 @@ export default function SearchPage() {
 
             {/* 호텔 타입 */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">호텔 타입</h3>
+              <h3 className="font-semibold mb-3 dark:text-white">호텔 타입</h3>
               <div className="space-y-2">
                 {[
                   { value: 'luxury', label: '럭셔리 호텔' },
@@ -228,8 +267,9 @@ export default function SearchPage() {
                       type="checkbox"
                       checked={filters.hotelType.includes(type.value)}
                       onChange={() => toggleFilter('hotelType', type.value)}
+                      className="accent-sage-500"
                     />
-                    <span className="text-sm">{type.label}</span>
+                    <span className="text-sm dark:text-gray-300">{type.label}</span>
                   </label>
                 ))}
               </div>
@@ -237,7 +277,7 @@ export default function SearchPage() {
 
             {/* 편의시설 */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">편의시설</h3>
+              <h3 className="font-semibold mb-3 dark:text-white">편의시설</h3>
               <div className="space-y-2">
                 {[
                   { value: 'WiFi', label: '무료 WiFi', icon: '📶' },
@@ -258,8 +298,9 @@ export default function SearchPage() {
                       type="checkbox"
                       checked={filters.amenities.includes(amenity.value)}
                       onChange={() => toggleFilter('amenities', amenity.value)}
+                      className="accent-sage-500"
                     />
-                    <span className="text-sm">{amenity.icon} {amenity.label}</span>
+                    <span className="text-sm dark:text-gray-300">{amenity.icon} {amenity.label}</span>
                   </label>
                 ))}
               </div>
@@ -267,7 +308,7 @@ export default function SearchPage() {
 
             {/* 객실 타입 */}
             <div className="mb-6">
-              <h3 className="font-semibold mb-3">객실 타입</h3>
+              <h3 className="font-semibold mb-3 dark:text-white">객실 타입</h3>
               <div className="space-y-2">
                 {[
                   { value: 'standard', label: '스탠다드' },
@@ -392,7 +433,7 @@ export default function SearchPage() {
                   className="bg-white rounded-lg shadow-md overflow-hidden flex hover:shadow-lg transition-shadow"
                 >
                   <div className="relative">
-                    <img
+                    <LazyImage
                       src={hotel.images?.[0] || '/placeholder-hotel.jpg'}
                       alt={hotel.name}
                       className="w-64 h-48 object-cover"

@@ -17,7 +17,7 @@ export default function HotelDetailPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
-  const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
+  const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '', images: [] });
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   useEffect(() => {
@@ -439,7 +439,24 @@ export default function HotelDetailPage() {
                   )}
                 </div>
               </div>
-              <p className="text-gray-700">{review.comment}</p>
+              <p className="text-gray-700 mb-3">{review.comment}</p>
+              
+              {/* 리뷰 이미지 */}
+              {review.images && review.images.length > 0 && (
+                <div className="grid grid-cols-5 gap-2 mt-3">
+                  {review.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Review ${index + 1}`}
+                      className="w-full h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => {
+                        // TODO: 이미지 갤러리 모달 열기
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -519,6 +536,53 @@ export default function HotelDetailPage() {
                 <p className="text-sm text-gray-500 mt-1">
                   {reviewForm.comment.length} / 500자
                 </p>
+              </div>
+
+              {/* 이미지 업로드 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  사진 첨부 (최대 5장)
+                </label>
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files).slice(0, 5);
+                      setReviewForm({ ...reviewForm, images: files });
+                    }}
+                    className="block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-sage-50 file:text-sage-700
+                      hover:file:bg-sage-100"
+                  />
+                  {reviewForm.images.length > 0 && (
+                    <div className="grid grid-cols-5 gap-2">
+                      {reviewForm.images.map((file, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-20 object-cover rounded"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newImages = reviewForm.images.filter((_, i) => i !== index);
+                              setReviewForm({ ...reviewForm, images: newImages });
+                            }}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          >
+                            <FaTimes size={10} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex justify-end space-x-4">
