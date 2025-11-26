@@ -1,4 +1,4 @@
-// MongoDB 초기화 스크립트
+  // MongoDB 초기화 스크립트
 db = db.getSiblingDB('hotelhub');
 
 // 기본 관리자 계정 생성 (선택사항)

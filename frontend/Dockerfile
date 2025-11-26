@@ -20,7 +20,7 @@ ENV VITE_KAKAO_REDIRECT_URI=$VITE_KAKAO_REDIRECT_URI
 ENV VITE_KAKAO_MAP_KEY=$VITE_KAKAO_MAP_KEY
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 RUN npm run build

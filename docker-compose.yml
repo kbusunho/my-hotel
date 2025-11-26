@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # MongoDB 데이터베이스 (로컬 개발용 - MongoDB Atlas 사용 시 주석 처리)
   # mongodb:
