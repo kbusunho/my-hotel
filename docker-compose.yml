@@ -37,7 +37,7 @@ services:
       - TOSS_CLIENT_KEY=test_ck_E92LAa5PVbwxd7X5YxNZr7YmpXyJ
       - KAKAO_CLIENT_ID=6e2585121c731501f753bcb14641fad1
       - KAKAO_CLIENT_SECRET=VzhxvCnVSiURwoemiOwqRULmYzM0viap
-      - KAKAO_REDIRECT_URI=http://localhost:3000/api/auth/kakao/callback
+      - KAKAO_REDIRECT_URI=http://localhost/auth/kakao/callback
       - AWS_REGION=ap-northeast-2
       - S3_BUCKET=hotel-bucket-teamproject
       - AWS_ACCESS_KEY_ID=AKIAQQNOG4ERW25H5OXJ
@@ -61,12 +61,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=
+        - VITE_API_URL=http://localhost:3000
         - VITE_API_BASE_URL=/api
         - VITE_TOSS_CLIENT_KEY=test_ck_E92LAa5PVbwxd7X5YxNZr7YmpXyJ
         - VITE_KAKAO_REST_API_KEY=6e2585121c731501f753bcb14641fad1
         - VITE_KAKAO_REDIRECT_URI=http://localhost/auth/kakao/callback
         - VITE_KAKAO_MAP_KEY=23407ddda3460fcdad2d3c8903378e07
+        - VITE_S3_PUBLIC_BASE=https://hotel-bucket-teamproject.s3.ap-northeast-2.amazonaws.com
     container_name: hotelhub-frontend
     restart: unless-stopped
     ports:

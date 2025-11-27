@@ -20,6 +20,27 @@ export default function HotelDetailPage() {
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '', images: [] });
   const [showAllReviews, setShowAllReviews] = useState(false);
 
+  const ensureKakaoLoaded = () => {
+    return new Promise((resolve, reject) => {
+      if (window.kakao && window.kakao.maps) {
+        resolve();
+        return;
+      }
+      let script = document.getElementById('kakao-sdk');
+      if (!script) {
+        script = document.createElement('script');
+        script.id = 'kakao-sdk';
+        script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=23407ddda3460fcdad2d3c8903378e07&autoload=false';
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load Kakao Maps SDK'));
+        document.head.appendChild(script);
+      } else {
+        script.onload = () => resolve();
+      }
+    });
+  };
+
   useEffect(() => {
     loadHotelDetails();
     loadReviews();
@@ -35,7 +56,9 @@ export default function HotelDetailPage() {
 
   useEffect(() => {
     if (hotel && hotel.location) {
-      initializeMap();
+      ensureKakaoLoaded()
+        .then(() => initializeMap())
+        .catch((e) => console.error(e));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hotel]);
@@ -79,35 +102,38 @@ export default function HotelDetailPage() {
       return;
     }
 
-    const container = document.getElementById('map');
-    if (!container) return;
+    // Kakao Maps SDK 로드 대기
+    window.kakao.maps.load(() => {
+      const container = document.getElementById('map');
+      if (!container) return;
 
-    const options = {
-      center: new window.kakao.maps.LatLng(
+      const options = {
+        center: new window.kakao.maps.LatLng(
+          hotel.location?.coordinates?.[1] || 35.1595,
+          hotel.location?.coordinates?.[0] || 129.1600
+        ),
+        level: 3
+      };
+
+      const map = new window.kakao.maps.Map(container, options);
+
+      const markerPosition = new window.kakao.maps.LatLng(
         hotel.location?.coordinates?.[1] || 35.1595,
         hotel.location?.coordinates?.[0] || 129.1600
-      ),
-      level: 3
-    };
+      );
 
-    const map = new window.kakao.maps.Map(container, options);
+      const marker = new window.kakao.maps.Marker({
+        position: markerPosition
+      });
 
-    const markerPosition = new window.kakao.maps.LatLng(
-      hotel.location?.coordinates?.[1] || 35.1595,
-      hotel.location?.coordinates?.[0] || 129.1600
-    );
+      marker.setMap(map);
 
-    const marker = new window.kakao.maps.Marker({
-      position: markerPosition
+      const infowindow = new window.kakao.maps.InfoWindow({
+        content: `<div style="padding:5px;font-size:12px;">${hotel.name}</div>`
+      });
+
+      infowindow.open(map, marker);
     });
-
-    marker.setMap(map);
-
-    const infowindow = new window.kakao.maps.InfoWindow({
-      content: `<div style="padding:5px;font-size:12px;">${hotel.name}</div>`
-    });
-
-    infowindow.open(map, marker);
   };
 
   const toggleFavorite = async () => {
