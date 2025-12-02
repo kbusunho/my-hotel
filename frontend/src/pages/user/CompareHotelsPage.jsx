@@ -1,6 +1,8 @@
 import { useCompare } from '../../context/CompareContext';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaTimes, FaStar, FaMapMarkerAlt, FaWifi, FaParking, FaSwimmingPool, FaDumbbell, FaSpa, FaUtensils, FaCheck, FaTimes as FaNo } from 'react-icons/fa';
+import { FaTimes, FaStar, FaMapMarkerAlt, FaCheck, FaTimes as FaNo } from 'react-icons/fa';
+import { getAmenityInfo } from '../../utils/amenityMapper';
 
 export default function CompareHotelsPage() {
   const { compareList, removeFromCompare, clearCompare } = useCompare();
@@ -25,16 +27,7 @@ export default function CompareHotelsPage() {
     );
   }
 
-  const amenityIcons = {
-    'WiFi': FaWifi,
-    '주차': FaParking,
-    '수영장': FaSwimmingPool,
-    '헬스장': FaDumbbell,
-    '스파': FaSpa,
-    '레스토랑': FaUtensils
-  };
-
-  const commonAmenities = ['WiFi', '주차', '수영장', '헬스장', '스파', '레스토랑', '조식', '룸서비스', '공항셔틀', '비즈니스센터'];
+  const commonAmenities = ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '스파', '바', '조식', '반려동물', '키즈클럽', '공항셔틀', '비즈니스', '온천', '골프장'];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -145,12 +138,13 @@ export default function CompareHotelsPage() {
 
               {/* 편의시설 */}
               {commonAmenities.map((amenity) => {
-                const Icon = amenityIcons[amenity] || FaCheck;
+                const amenityInfo = getAmenityInfo(amenity);
+                const Icon = amenityInfo.icon;
                 return (
                   <tr key={amenity} className="border-b border-gray-200 dark:border-gray-700">
                     <td className="px-6 py-4 font-semibold dark:text-white">
-                      <Icon className="inline mr-2" />
-                      {amenity}
+                      {React.createElement(Icon, { className: "inline mr-2" })}
+                      {amenityInfo.label}
                     </td>
                     {compareList.map((hotel) => {
                       const hasAmenity = hotel.amenities?.includes(amenity);

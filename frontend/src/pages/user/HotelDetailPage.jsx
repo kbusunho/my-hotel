@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ImageGalleryModal from '../../components/ImageGalleryModal';
 import api from '../../api/axios';
-import { FaStar, FaMapMarkerAlt, FaWifi, FaParking, FaSwimmingPool, FaDumbbell, FaHeart, FaEdit, FaTrash, FaTimes, FaFlag } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaHeart, FaEdit, FaTrash, FaTimes, FaFlag } from 'react-icons/fa';
+import { mapAmenities } from '../../utils/amenityMapper';
 
 export default function HotelDetailPage() {
   const { id } = useParams();
@@ -336,15 +338,11 @@ export default function HotelDetailPage() {
           <h2 className="text-2xl font-bold mb-4">Overview</h2>
           <p className="text-gray-700 mb-6">{hotel.description}</p>
 
-          <h3 className="text-xl font-bold mb-4">Amenities</h3>
+          <h3 className="text-xl font-bold mb-4">편의시설</h3>
           <div className="grid grid-cols-3 gap-4">
-            {[
-              { icon: FaWifi, label: 'Free WiFi' },
-              { icon: FaParking, label: 'Free Parking' },
-              { icon: FaSwimmingPool, label: 'Swimming Pool' },
-            ].map((amenity, idx) => (
+            {mapAmenities(hotel.amenities).map((amenity, idx) => (
               <div key={idx} className="flex items-center space-x-3">
-                <amenity.icon className="text-sage-600 text-xl" />
+                {React.createElement(amenity.icon, { className: "text-sage-600 text-xl" })}
                 <span>{amenity.label}</span>
               </div>
             ))}

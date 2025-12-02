@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useRecentSearches, RecentSearches } from '../../hooks/useRecentSearches.jsx';
 import api from '../../api/axios';
-import { FaStar, FaMapMarkerAlt, FaWifi, FaParking, FaSwimmingPool, FaHeart } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
 import LazyImage from '../../components/LazyImage';
+import { mapAmenities } from '../../utils/amenityMapper';
 
 export default function SearchPage() {
   const { user } = useAuth();
@@ -465,15 +467,16 @@ export default function SearchPage() {
                           </span>
                         </div>
                         
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <div className="flex items-center">
-                            <FaWifi className="mr-1" />
-                            <span>Free WiFi</span>
-                          </div>
-                          <div className="flex items-center">
-                            <FaParking className="mr-1" />
-                            <span>Parking</span>
-                          </div>
+                        <div className="flex items-center space-x-4 text-sm text-gray-600 flex-wrap">
+                          {mapAmenities(hotel.amenities).slice(0, 4).map((amenity, idx) => (
+                            <div key={idx} className="flex items-center">
+                              {React.createElement(amenity.icon, { className: "mr-1" })}
+                              <span>{amenity.label}</span>
+                            </div>
+                          ))}
+                          {hotel.amenities && hotel.amenities.length > 4 && (
+                            <span className="text-sage-600">+{hotel.amenities.length - 4}개</span>
+                          )}
                         </div>
                       </div>
                       

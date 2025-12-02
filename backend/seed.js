@@ -21,7 +21,7 @@ const hotelImages = {
     'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
     'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
     'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800',
-    'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800'
+    'https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800'
   ],
   jeju: [
     'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800',
@@ -48,7 +48,7 @@ const hotelImages = {
     'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800'
   ],
   daejeon: [
-    'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800',
+    'https://images.unsplash.com/photo-1549294413-26f195200c16?w=800',
     'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800',
     'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800',
     'https://images.unsplash.com/photo-1561501900-3701fa6a0864?w=800'
@@ -73,7 +73,7 @@ const hotelImages = {
   ],
   gyeongju: [
     'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800',
-    'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800',
+    'https://images.unsplash.com/photo-1553653924-39b70295f8da?w=800',
     'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800',
     'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800'
   ],
