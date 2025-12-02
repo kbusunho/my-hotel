@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const { checkMaintenance } = require('./middleware/maintenance');
@@ -9,12 +8,12 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: [process.env.FRONT_ORIGIN, 'http://localhost', 'http://localhost:80'],
-  credentials: true
-}));
+// CORS는 Nginx에서 처리하므로 제거
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 프록시 신뢰 설정 (Nginx를 통한 요청)
+app.set('trust proxy', 1);
 
 // 유지보수 모드 체크 (모든 라우트 전에 실행)
 app.use(checkMaintenance);
