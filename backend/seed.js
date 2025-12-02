@@ -82,6 +82,12 @@ const hotelImages = {
     'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800',
     'https://images.unsplash.com/photo-1455587734955-081b22074882?w=800',
     'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800'
+  ],
+  gyeonggi: [
+    'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800',
+    'https://images.unsplash.com/photo-1601395605596-f0a7f0d36e15?w=800',
+    'https://images.unsplash.com/photo-1559599101-f09722fb4948?w=800',
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800'
   ]
 };
 
@@ -132,13 +138,6 @@ const seedUsers = async () => {
       password: 'love7942@',
       name: '관리자',
       phone: '010-0000-0000',
-      role: 'admin'
-    },
-    {
-      email: 'admin@test.com',
-      password: '123456',
-      name: '테스트관리자',
-      phone: '010-0000-0001',
       role: 'admin'
     },
     {
@@ -198,6 +197,14 @@ const seedUsers = async () => {
       businessStatus: 'approved'
     },
     {
+      email: 'business8@hotel.com',
+      password: 'business123',
+      name: '경기도호텔그룹',
+      phone: '010-1234-5678',
+      role: 'business',
+      businessStatus: 'approved'
+    },
+    {
       email: 'test2@gmail.com',
       password: '123456',
       name: '김철수',
@@ -232,9 +239,14 @@ const seedHotels = async (users) => {
   const business1 = users.find(u => u.email === 'test1@gmail.com');
   const business2 = users.find(u => u.email === 'business2@hotel.com');
   const business3 = users.find(u => u.email === 'business3@hotel.com');
+  const business4 = users.find(u => u.email === 'business4@hotel.com');
+  const business5 = users.find(u => u.email === 'business5@hotel.com');
+  const business6 = users.find(u => u.email === 'business6@hotel.com');
+  const business7 = users.find(u => u.email === 'business7@hotel.com');
+  const business8 = users.find(u => u.email === 'business8@hotel.com');
 
   const hotels = [
-    // 서울 호텔 (8개)
+    // 서울 호텔 (12개)
     {
       name: '서울 그랜드 호텔',
       description: '서울 중심부에 위치한 5성급 럭셔리 호텔입니다. 최상의 서비스와 편안한 객실을 제공합니다.',
@@ -379,6 +391,78 @@ const seedHotels = async (users) => {
       status: 'active',
       tags: ['가족', '인기']
     },
+    {
+      name: '서울역 비즈니스 스테이',
+      description: '서울역 바로 앞에 위치한 편리한 비즈니스 호텔입니다.',
+      location: {
+        address: '서울특별시 용산구 한강대로 405',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5546, lng: 126.9707 }
+      },
+      images: hotelImages.seoul.slice(2),
+      owner: business1._id,
+      amenities: ['WiFi', '조식', '비즈니스', '공항셔틀'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '코엑스 컨벤션 호텔',
+      description: 'COEX와 직결된 최고의 컨벤션 호텔입니다.',
+      location: {
+        address: '서울특별시 강남구 영동대로 513',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5115, lng: 127.0595 }
+      },
+      images: hotelImages.seoul,
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.8,
+      reviewCount: 298,
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
+    },
+    {
+      name: '여의도 리버뷰 호텔',
+      description: '한강과 여의도공원이 보이는 프리미엄 호텔입니다.',
+      location: {
+        address: '서울특별시 영등포구 여의대로 108',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5219, lng: 126.9245 }
+      },
+      images: hotelImages.seoul.slice(1),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '바', '비즈니스'],
+      hotelType: 'business',
+      rating: 4.6,
+      reviewCount: 184,
+      status: 'active',
+      tags: ['비즈니스', '특가']
+    },
+    {
+      name: '동대문 패션 호텔',
+      description: '동대문 쇼핑가 중심의 트렌디한 호텔입니다.',
+      location: {
+        address: '서울특별시 중구 을지로 281',
+        city: '서울',
+        country: '대한민국',
+        coordinates: { lat: 37.5658, lng: 127.0078 }
+      },
+      images: hotelImages.seoul.slice(2),
+      owner: business1._id,
+      amenities: ['WiFi', '주차', '레스토랑', '조식'],
+      hotelType: 'boutique',
+      rating: 4.5,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['신규', '추천']
+    },
     // 부산 호텔 (7개)
     {
       name: '해운대 비치 리조트',
@@ -506,6 +590,42 @@ const seedHotels = async (users) => {
       status: 'active',
       tags: ['특가', '가족']
     },
+    {
+      name: '다대포 해변 리조트',
+      description: '다대포 해수욕장 바로 앞의 가족 단위 리조트입니다.',
+      location: {
+        address: '부산광역시 사하구 다대포해변로 150',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.0466, lng: 128.9682 }
+      },
+      images: hotelImages.busan.slice(1),
+      owner: business2._id,
+      amenities: ['WiFi', '주차', '수영장', '키즈클럽', '레스토랑', '바비큐'],
+      hotelType: 'resort',
+      rating: 4.5,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['가족', '주말특가']
+    },
+    {
+      name: '부산대학교 캠퍼스 호텔',
+      description: '부산대학교 근처의 편리한 호텔입니다.',
+      location: {
+        address: '부산광역시 금정구 부산대학로 63번길 12',
+        city: '부산',
+        country: '대한민국',
+        coordinates: { lat: 35.2323, lng: 129.0838 }
+      },
+      images: hotelImages.busan.slice(2),
+      owner: business2._id,
+      amenities: ['WiFi', '주차', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 98,
+      status: 'active',
+      tags: ['추천']
+    },
     // 제주 호텔 (6개)
     {
       name: '제주 오션 뷰 리조트',
@@ -615,6 +735,60 @@ const seedHotels = async (users) => {
       status: 'active',
       tags: ['추천']
     },
+    {
+      name: '우도 오션뷰 펜션',
+      description: '우도에서 바다를 감상할 수 있는 감성 펜션입니다.',
+      location: {
+        address: '제주특별자치도 제주시 우도면 연평리 1234',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.5009, lng: 126.9507 }
+      },
+      images: hotelImages.jeju,
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '바비큐', '테라스', '반려동물'],
+      hotelType: 'pension',
+      rating: 4.8,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['반려동물', '커플', '인기']
+    },
+    {
+      name: '협재 해수욕장 리조트',
+      description: '협재 해수욕장 바로 앞의 프리미엄 리조트입니다.',
+      location: {
+        address: '제주특별자치도 제주시 한림읍 협재리 2497',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.3942, lng: 126.2396 }
+      },
+      images: hotelImages.jeju.slice(1),
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '스파', '키즈클럽', '반려동물'],
+      hotelType: 'resort',
+      rating: 4.9,
+      reviewCount: 312,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족', '반려동물']
+    },
+    {
+      name: '서귀포 월드컵 호텔',
+      description: '월드컵경기장과 가까운 스포츠 관광 호텔입니다.',
+      location: {
+        address: '제주특별자치도 서귀포시 월드컵로 33',
+        city: '제주',
+        country: '대한민국',
+        coordinates: { lat: 33.2468, lng: 126.5097 }
+      },
+      images: hotelImages.jeju.slice(2),
+      owner: business3._id,
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '조식'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 128,
+      status: 'active',
+      tags: ['추천']
+    },
     // 인천 호텔 (4개)
     {
       name: '인천공항 트랜짓 호텔',
@@ -687,6 +861,1023 @@ const seedHotels = async (users) => {
       reviewCount: 94,
       status: 'active',
       tags: ['커플', '신규']
+    },
+    // 대구 호텔 (8개)
+    {
+      name: '대구 그랜드 호텔',
+      description: '대구 중심가에 위치한 럭셔리 비즈니스 호텔입니다.',
+      location: {
+        address: '대구광역시 중구 동성로 145',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8714, lng: 128.5986 }
+      },
+      images: hotelImages.daegu,
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.7,
+      reviewCount: 234,
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
+    },
+    {
+      name: '동대구역 비즈니스 호텔',
+      description: 'KTX 동대구역 바로 앞의 편리한 호텔입니다.',
+      location: {
+        address: '대구광역시 동구 동대구로 550',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8788, lng: 128.6288 }
+      },
+      images: hotelImages.daegu.slice(1),
+      owner: business4._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '수성못 레이크 호텔',
+      description: '수성못 호수공원 옆의 아름다운 뷰를 자랑하는 호텔입니다.',
+      location: {
+        address: '대구광역시 수성구 무학로 145',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8242, lng: 128.6803 }
+      },
+      images: hotelImages.daegu.slice(2),
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '피트니스'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 198,
+      status: 'active',
+      tags: ['인기', '커플', '특가']
+    },
+    {
+      name: '대구공항 호텔',
+      description: '대구국제공항에서 5분 거리의 환승 호텔입니다.',
+      location: {
+        address: '대구광역시 동구 공항로 221',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8941, lng: 128.6589 }
+      },
+      images: hotelImages.daegu,
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '조식', '공항셔틀'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 124,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '팔공산 리조트',
+      description: '팔공산 자연 속의 힐링 리조트입니다.',
+      location: {
+        address: '대구광역시 동구 팔공산로 1234',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.9842, lng: 128.6987 }
+      },
+      images: hotelImages.daegu.slice(1),
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 215,
+      status: 'active',
+      tags: ['가족', '인기']
+    },
+    {
+      name: '김광석거리 부티크 호텔',
+      description: '방천시장과 김광석거리가 가까운 감성 호텔입니다.',
+      location: {
+        address: '대구광역시 중구 대봉동 12-3',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8557, lng: 128.5830 }
+      },
+      images: hotelImages.daegu.slice(2),
+      owner: business4._id,
+      amenities: ['WiFi', '레스토랑', '바'],
+      hotelType: 'boutique',
+      rating: 4.5,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['신규', '커플']
+    },
+    {
+      name: '대구 서문시장 호텔',
+      description: '서문시장 야시장이 가까운 관광 호텔입니다.',
+      location: {
+        address: '대구광역시 중구 큰장로 26',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8712, lng: 128.5843 }
+      },
+      images: hotelImages.daegu,
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '조식'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 118,
+      status: 'active',
+      tags: ['추천', '주말특가']
+    },
+    {
+      name: '대구 스타디움 호텔',
+      description: 'DGB대구은행파크 야구장 근처의 스포츠 호텔입니다.',
+      location: {
+        address: '대구광역시 수성구 야구전설로 1',
+        city: '대구',
+        country: '대한민국',
+        coordinates: { lat: 35.8409, lng: 128.6815 }
+      },
+      images: hotelImages.daegu.slice(1),
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['추천']
+    },
+    // 광주 호텔 (6개)
+    {
+      name: '광주 프리미엄 호텔',
+      description: '광주 충장로 중심가의 프리미엄 비즈니스 호텔입니다.',
+      location: {
+        address: '광주광역시 동구 충장로 123',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1495, lng: 126.9176 }
+      },
+      images: hotelImages.gwangju,
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '바', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.6,
+      reviewCount: 187,
+      status: 'active',
+      tags: ['럭셔리', '비즈니스', '인기']
+    },
+    {
+      name: '광주송정역 호텔',
+      description: 'KTX 광주송정역 바로 앞의 편리한 호텔입니다.',
+      location: {
+        address: '광주광역시 광산구 송정로 8',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1398, lng: 126.7895 }
+      },
+      images: hotelImages.gwangju.slice(1),
+      owner: business5._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 143,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '무등산 리조트',
+      description: '무등산 국립공원 입구의 자연 속 리조트입니다.',
+      location: {
+        address: '광주광역시 동구 무등로 1234',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1347, lng: 126.9889 }
+      },
+      images: hotelImages.gwangju.slice(2),
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 203,
+      status: 'active',
+      tags: ['가족', '인기']
+    },
+    {
+      name: '광주 아시아문화전당 호텔',
+      description: '아시아문화전당 바로 옆의 문화 호텔입니다.',
+      location: {
+        address: '광주광역시 동구 문화전당로 38',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1469, lng: 126.9186 }
+      },
+      images: hotelImages.gwangju,
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바'],
+      hotelType: 'boutique',
+      rating: 4.5,
+      reviewCount: 128,
+      status: 'active',
+      tags: ['신규', '추천']
+    },
+    {
+      name: '상무지구 비즈니스 호텔',
+      description: '상무지구 중심의 현대적인 비즈니스 호텔입니다.',
+      location: {
+        address: '광주광역시 서구 상무중앙로 123',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1523, lng: 126.8527 }
+      },
+      images: hotelImages.gwangju.slice(1),
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '비즈니스'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '양동시장 전통 호텔',
+      description: '양동시장 야시장이 가까운 전통 호텔입니다.',
+      location: {
+        address: '광주광역시 남구 양림동 123',
+        city: '광주',
+        country: '대한민국',
+        coordinates: { lat: 35.1326, lng: 126.9108 }
+      },
+      images: hotelImages.gwangju.slice(2),
+      owner: business5._id,
+      amenities: ['WiFi', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 97,
+      status: 'active',
+      tags: ['추천']
+    },
+    // 대전 호텔 (5개)
+    {
+      name: '대전 엑스포 호텔',
+      description: '엑스포과학공원 근처의 현대적인 호텔입니다.',
+      location: {
+        address: '대전광역시 유성구 대덕대로 480',
+        city: '대전',
+        country: '대한민국',
+        coordinates: { lat: 36.3717, lng: 127.3847 }
+      },
+      images: hotelImages.daejeon,
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.6,
+      reviewCount: 198,
+      status: 'active',
+      tags: ['럭셔리', '비즈니스', '인기']
+    },
+    {
+      name: '대전역 비즈니스 호텔',
+      description: 'KTX 대전역 바로 앞의 편리한 호텔입니다.',
+      location: {
+        address: '대전광역시 동구 중앙로 215',
+        city: '대전',
+        country: '대한민국',
+        coordinates: { lat: 36.3318, lng: 127.4349 }
+      },
+      images: hotelImages.daejeon.slice(1),
+      owner: business5._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 154,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '유성온천 힐링 호텔',
+      description: '유성온천 중심가의 온천 호텔입니다.',
+      location: {
+        address: '대전광역시 유성구 봉명동 567',
+        city: '대전',
+        country: '대한민국',
+        coordinates: { lat: 36.3556, lng: 127.3444 }
+      },
+      images: hotelImages.daejeon.slice(2),
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '온천', '스파', '레스토랑', '수영장'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 223,
+      status: 'active',
+      tags: ['인기', '특가']
+    },
+    {
+      name: '계룡산 자연 리조트',
+      description: '계룡산 국립공원 입구의 힐링 리조트입니다.',
+      location: {
+        address: '대전광역시 유성구 계룡로 1234',
+        city: '대전',
+        country: '대한민국',
+        coordinates: { lat: 36.3397, lng: 127.2456 }
+      },
+      images: hotelImages.daejeon,
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '키즈클럽', '바비큐'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['가족', '추천']
+    },
+    {
+      name: '둔산 컨벤션 호텔',
+      description: '대전컨벤션센터 바로 옆의 비즈니스 호텔입니다.',
+      location: {
+        address: '대전광역시 서구 둔산대로 123',
+        city: '대전',
+        country: '대한민국',
+        coordinates: { lat: 36.3504, lng: 127.3845 }
+      },
+      images: hotelImages.daejeon.slice(1),
+      owner: business5._id,
+      amenities: ['WiFi', '주차', '피트니스', '레스토랑', '비즈니스'],
+      hotelType: 'business',
+      rating: 4.5,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    // 강릉 호텔 (6개)
+    {
+      name: '강릉 경포대 비치 리조트',
+      description: '경포해변 바로 앞의 프리미엄 오션뷰 리조트입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 창해로 514',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.7987, lng: 128.9069 }
+      },
+      images: hotelImages.gangneung,
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '바', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.8,
+      reviewCount: 287,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족']
+    },
+    {
+      name: '강릉역 비즈니스 호텔',
+      description: 'KTX 강릉역 바로 앞의 편리한 호텔입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 강릉대로 456',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.7649, lng: 128.8986 }
+      },
+      images: hotelImages.gangneung.slice(1),
+      owner: business6._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 134,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '정동진 선라이즈 호텔',
+      description: '정동진 해돋이로 유명한 최고의 일출 호텔입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 강동면 정동역길 17',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.6907, lng: 129.0335 }
+      },
+      images: hotelImages.gangneung.slice(2),
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 245,
+      status: 'active',
+      tags: ['인기', '커플', '특가']
+    },
+    {
+      name: '안목해변 카페거리 호텔',
+      description: '커피거리로 유명한 안목해변의 감성 호텔입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 창해로14번길 32',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.7711, lng: 128.9459 }
+      },
+      images: hotelImages.gangneung,
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '레스토랑'],
+      hotelType: 'boutique',
+      rating: 4.6,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['커플', '신규']
+    },
+    {
+      name: '주문진 어촌 체험 호텔',
+      description: '주문진 수산시장이 가까운 해양 관광 호텔입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 주문진읍 주문로 123',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.8965, lng: 128.8169 }
+      },
+      images: hotelImages.gangneung.slice(1),
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바비큐'],
+      hotelType: 'resort',
+      rating: 4.5,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['가족', '추천']
+    },
+    {
+      name: '오죽헌 문화 호텔',
+      description: '오죽헌과 선교장이 가까운 전통 문화 호텔입니다.',
+      location: {
+        address: '강원특별자치도 강릉시 죽헌길 24',
+        city: '강릉',
+        country: '대한민국',
+        coordinates: { lat: 37.7702, lng: 128.9089 }
+      },
+      images: hotelImages.gangneung.slice(2),
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '조식', '레스토랑'],
+      hotelType: 'boutique',
+      rating: 4.4,
+      reviewCount: 118,
+      status: 'active',
+      tags: ['추천']
+    },
+    // 속초 호텔 (5개)
+    {
+      name: '속초 마리나베이 리조트',
+      description: '속초해변과 설악산을 모두 즐길 수 있는 최고의 리조트입니다.',
+      location: {
+        address: '강원특별자치도 속초시 해오름로 190',
+        city: '속초',
+        country: '대한민국',
+        coordinates: { lat: 38.2070, lng: 128.5918 }
+      },
+      images: hotelImages.sokcho,
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.8,
+      reviewCount: 312,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족']
+    },
+    {
+      name: '속초 엑스포 호텔',
+      description: '속초 시내 중심의 편리한 비즈니스 호텔입니다.',
+      location: {
+        address: '강원특별자치도 속초시 중앙로 123',
+        city: '속초',
+        country: '대한민국',
+        coordinates: { lat: 38.2070, lng: 128.5918 }
+      },
+      images: hotelImages.sokcho.slice(1),
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '설악산 자연 휴양림 리조트',
+      description: '설악산 입구의 자연 속 힐링 리조트입니다.',
+      location: {
+        address: '강원특별자치도 속초시 설악산로 1234',
+        city: '속초',
+        country: '대한민국',
+        coordinates: { lat: 38.1194, lng: 128.4655 }
+      },
+      images: hotelImages.sokcho.slice(2),
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바비큐', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.7,
+      reviewCount: 234,
+      status: 'active',
+      tags: ['가족', '인기']
+    },
+    {
+      name: '청초호 레이크뷰 호텔',
+      description: '청초호수 옆의 아름다운 호수 뷰 호텔입니다.',
+      location: {
+        address: '강원특별자치도 속초시 청호로 345',
+        city: '속초',
+        country: '대한민국',
+        coordinates: { lat: 38.1948, lng: 128.5982 }
+      },
+      images: hotelImages.sokcho,
+      owner: business6._id,
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['커플', '추천']
+    },
+    {
+      name: '속초중앙시장 게스트하우스',
+      description: '속초중앙시장과 아바이마을이 가까운 게스트하우스입니다.',
+      location: {
+        address: '강원특별자치도 속초시 중앙로 89',
+        city: '속초',
+        country: '대한민국',
+        coordinates: { lat: 38.2048, lng: 128.5892 }
+      },
+      images: hotelImages.sokcho.slice(1),
+      owner: business6._id,
+      amenities: ['WiFi', '조식'],
+      hotelType: 'pension',
+      rating: 4.3,
+      reviewCount: 124,
+      status: 'active',
+      tags: ['추천', '특가']
+    },
+    // 여수 호텔 (5개)
+    {
+      name: '여수 엑스포 오션 리조트',
+      description: '여수엑스포 해양공원 바로 앞의 프리미엄 리조트입니다.',
+      location: {
+        address: '전라남도 여수시 엑스포로 1',
+        city: '여수',
+        country: '대한민국',
+        coordinates: { lat: 34.7604, lng: 127.7421 }
+      },
+      images: hotelImages.yeosu,
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '바', '스파', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.9,
+      reviewCount: 345,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족']
+    },
+    {
+      name: '여수 돌산대교뷰 호텔',
+      description: '돌산대교 야경이 아름다운 최고의 뷰 호텔입니다.',
+      location: {
+        address: '전라남도 여수시 돌산읍 돌산로 234',
+        city: '여수',
+        country: '대한민국',
+        coordinates: { lat: 34.7368, lng: 127.7687 }
+      },
+      images: hotelImages.yeosu.slice(1),
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '스파'],
+      hotelType: 'resort',
+      rating: 4.8,
+      reviewCount: 267,
+      status: 'active',
+      tags: ['인기', '커플', '특가']
+    },
+    {
+      name: '여수역 비즈니스 호텔',
+      description: 'KTX 여수엑스포역 근처의 편리한 호텔입니다.',
+      location: {
+        address: '전라남도 여수시 엑스포로 312',
+        city: '여수',
+        country: '대한민국',
+        coordinates: { lat: 34.7598, lng: 127.7445 }
+      },
+      images: hotelImages.yeosu.slice(2),
+      owner: business7._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '오동도 씨사이드 호텔',
+      description: '오동도 동백꽃이 아름다운 해변 호텔입니다.',
+      location: {
+        address: '전라남도 여수시 오동도로 222',
+        city: '여수',
+        country: '대한민국',
+        coordinates: { lat: 34.7460, lng: 127.7664 }
+      },
+      images: hotelImages.yeosu,
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '레스토랑', '수영장'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 198,
+      status: 'active',
+      tags: ['커플', '추천']
+    },
+    {
+      name: '여수 낭만포차거리 호텔',
+      description: '낭만포차거리와 해양공원이 가까운 관광 호텔입니다.',
+      location: {
+        address: '전라남도 여수시 중앙로 145',
+        city: '여수',
+        country: '대한민국',
+        coordinates: { lat: 34.7608, lng: 127.6622 }
+      },
+      images: hotelImages.yeosu.slice(1),
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.5,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['추천']
+    },
+    // 경주 호텔 (5개)
+    {
+      name: '경주 신라 문화 호텔',
+      description: '대릉원과 첨성대가 가까운 전통 문화 호텔입니다.',
+      location: {
+        address: '경상북도 경주시 첨성로 123',
+        city: '경주',
+        country: '대한민국',
+        coordinates: { lat: 35.8345, lng: 129.2189 }
+      },
+      images: hotelImages.gyeongju,
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '스파', '한옥'],
+      hotelType: 'boutique',
+      rating: 4.8,
+      reviewCount: 298,
+      status: 'active',
+      tags: ['인기', '럭셔리', '추천']
+    },
+    {
+      name: '경주 보문단지 리조트',
+      description: '보문관광단지 내 최대 규모의 프리미엄 리조트입니다.',
+      location: {
+        address: '경상북도 경주시 보문로 424',
+        city: '경주',
+        country: '대한민국',
+        coordinates: { lat: 35.8243, lng: 129.2867 }
+      },
+      images: hotelImages.gyeongju.slice(1),
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '골프장', '키즈클럽'],
+      hotelType: 'resort',
+      rating: 4.9,
+      reviewCount: 412,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족']
+    },
+    {
+      name: '경주역 비즈니스 호텔',
+      description: 'KTX 신경주역 근처의 편리한 호텔입니다.',
+      location: {
+        address: '경상북도 경주시 건천읍 신평리 123',
+        city: '경주',
+        country: '대한민국',
+        coordinates: { lat: 35.8986, lng: 129.1734 }
+      },
+      images: hotelImages.gyeongju.slice(2),
+      owner: business4._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 134,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '불국사 템플스테이 호텔',
+      description: '불국사와 석굴암이 가까운 힐링 호텔입니다.',
+      location: {
+        address: '경상북도 경주시 불국로 385',
+        city: '경주',
+        country: '대한민국',
+        coordinates: { lat: 35.7899, lng: 129.3321 }
+      },
+      images: hotelImages.gyeongju,
+      owner: business4._id,
+      amenities: ['WiFi', '주차', '레스토랑', '명상센터'],
+      hotelType: 'boutique',
+      rating: 4.7,
+      reviewCount: 223,
+      status: 'active',
+      tags: ['추천', '인기']
+    },
+    {
+      name: '경주 황리단길 부티크 호텔',
+      description: '황리단길 카페거리 중심의 감성 부티크 호텔입니다.',
+      location: {
+        address: '경상북도 경주시 포석로 1025',
+        city: '경주',
+        country: '대한민국',
+        coordinates: { lat: 35.8342, lng: 129.2147 }
+      },
+      images: hotelImages.gyeongju.slice(1),
+      owner: business4._id,
+      amenities: ['WiFi', '레스토랑', '바', '루프탑'],
+      hotelType: 'boutique',
+      rating: 4.6,
+      reviewCount: 189,
+      status: 'active',
+      tags: ['신규', '커플', '인기']
+    },
+    // 전주 호텔 (4개)
+    {
+      name: '전주 한옥마을 게스트하우스',
+      description: '전주 한옥마을 중심의 전통 한옥 숙소입니다.',
+      location: {
+        address: '전라북도 전주시 완산구 은행로 10',
+        city: '전주',
+        country: '대한민국',
+        coordinates: { lat: 35.8150, lng: 127.1530 }
+      },
+      images: hotelImages.jeonju,
+      owner: business7._id,
+      amenities: ['WiFi', '한옥', '전통차', '한복체험'],
+      hotelType: 'boutique',
+      rating: 4.8,
+      reviewCount: 312,
+      status: 'active',
+      tags: ['인기', '커플', '추천']
+    },
+    {
+      name: '전주역 비즈니스 호텔',
+      description: 'KTX 전주역 바로 앞의 편리한 호텔입니다.',
+      location: {
+        address: '전라북도 전주시 덕진구 백제대로 248',
+        city: '전주',
+        country: '대한민국',
+        coordinates: { lat: 35.8456, lng: 127.1289 }
+      },
+      images: hotelImages.jeonju.slice(1),
+      owner: business7._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '전주 덕진공원 호텔',
+      description: '덕진연못이 아름다운 공원 옆 호텔입니다.',
+      location: {
+        address: '전라북도 전주시 덕진구 권삼득로 390',
+        city: '전주',
+        country: '대한민국',
+        coordinates: { lat: 35.8476, lng: 127.1237 }
+      },
+      images: hotelImages.jeonju.slice(2),
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스'],
+      hotelType: 'business',
+      rating: 4.5,
+      reviewCount: 145,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '전주 남부시장 호텔',
+      description: '전주 남부시장 야시장이 가까운 관광 호텔입니다.',
+      location: {
+        address: '전라북도 전주시 완산구 풍남동 123',
+        city: '전주',
+        country: '대한민국',
+        coordinates: { lat: 35.8109, lng: 127.1479 }
+      },
+      images: hotelImages.jeonju,
+      owner: business7._id,
+      amenities: ['WiFi', '주차', '조식'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 128,
+      status: 'active',
+      tags: ['추천', '특가']
+    },
+    // 경기도 호텔 (12개)
+    {
+      name: '수원 화성 호텔',
+      description: '수원 화성과 행궁이 가까운 전통 문화 호텔입니다.',
+      location: {
+        address: '경기도 수원시 팔달구 정조로 825',
+        city: '수원',
+        country: '대한민국',
+        coordinates: { lat: 37.2893, lng: 127.0142 }
+      },
+      images: hotelImages.gyeonggi,
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '피트니스', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.7,
+      reviewCount: 245,
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
+    },
+    {
+      name: '수원역 비즈니스 호텔',
+      description: 'KTX 수원역 바로 앞의 편리한 비즈니스 호텔입니다.',
+      location: {
+        address: '경기도 수원시 팔달구 덕영대로 924',
+        city: '수원',
+        country: '대한민국',
+        coordinates: { lat: 37.2662, lng: 127.0010 }
+      },
+      images: hotelImages.gyeonggi.slice(1),
+      owner: business8._id,
+      amenities: ['WiFi', '조식', '비즈니스', '주차'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '성남 판교 테크노밸리 호텔',
+      description: '판교 테크노밸리 중심의 최첨단 비즈니스 호텔입니다.',
+      location: {
+        address: '경기도 성남시 분당구 판교역로 192',
+        city: '성남',
+        country: '대한민국',
+        coordinates: { lat: 37.3951, lng: 127.1116 }
+      },
+      images: hotelImages.gyeonggi.slice(2),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.8,
+      reviewCount: 312,
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
+    },
+    {
+      name: '성남 모란시장 호텔',
+      description: '모란시장이 가까운 관광과 쇼핑에 편리한 호텔입니다.',
+      location: {
+        address: '경기도 성남시 중원구 성남대로 1234',
+        city: '성남',
+        country: '대한민국',
+        coordinates: { lat: 37.4340, lng: 127.1384 }
+      },
+      images: hotelImages.gyeonggi,
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '조식', '레스토랑'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 142,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '고양 킨텍스 컨벤션 호텔',
+      description: 'KINTEX 전시장 바로 옆의 대규모 컨벤션 호텔입니다.',
+      location: {
+        address: '경기도 고양시 일산서구 킨텍스로 217',
+        city: '고양',
+        country: '대한민국',
+        coordinates: { lat: 37.6686, lng: 126.7520 }
+      },
+      images: hotelImages.gyeonggi.slice(1),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '수영장', '피트니스', '레스토랑', '바', '스파', '비즈니스'],
+      hotelType: 'luxury',
+      rating: 4.8,
+      reviewCount: 387,
+      status: 'active',
+      tags: ['인기', '럭셔리', '비즈니스']
+    },
+    {
+      name: '고양 일산호수공원 호텔',
+      description: '일산호수공원 옆의 아름다운 호수 뷰 호텔입니다.',
+      location: {
+        address: '경기도 고양시 일산동구 호수로 595',
+        city: '고양',
+        country: '대한민국',
+        coordinates: { lat: 37.6570, lng: 126.7704 }
+      },
+      images: hotelImages.gyeonggi.slice(2),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스', '자전거대여'],
+      hotelType: 'resort',
+      rating: 4.6,
+      reviewCount: 198,
+      status: 'active',
+      tags: ['가족', '커플', '추천']
+    },
+    {
+      name: '용인 에버랜드 리조트',
+      description: '에버랜드와 캐리비안베이가 가까운 테마파크 리조트입니다.',
+      location: {
+        address: '경기도 용인시 처인구 포곡읍 에버랜드로 199',
+        city: '용인',
+        country: '대한민국',
+        coordinates: { lat: 37.2942, lng: 127.2020 }
+      },
+      images: hotelImages.gyeonggi,
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '수영장', '레스토랑', '키즈클럽', '스파', '골프장'],
+      hotelType: 'resort',
+      rating: 4.9,
+      reviewCount: 523,
+      status: 'active',
+      tags: ['인기', '럭셔리', '가족']
+    },
+    {
+      name: '용인 한국민속촌 호텔',
+      description: '한국민속촌이 가까운 전통 문화 체험 호텔입니다.',
+      location: {
+        address: '경기도 용인시 기흥구 민속촌로 90',
+        city: '용인',
+        country: '대한민국',
+        coordinates: { lat: 37.2601, lng: 127.1185 }
+      },
+      images: hotelImages.gyeonggi.slice(1),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '한복체험', '전통차'],
+      hotelType: 'boutique',
+      rating: 4.5,
+      reviewCount: 167,
+      status: 'active',
+      tags: ['가족', '추천']
+    },
+    {
+      name: '평택 소사벌 호텔',
+      description: '평택역 근처의 편리한 비즈니스 호텔입니다.',
+      location: {
+        address: '경기도 평택시 평택로 225',
+        city: '평택',
+        country: '대한민국',
+        coordinates: { lat: 37.0013, lng: 127.0882 }
+      },
+      images: hotelImages.gyeonggi.slice(2),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '조식', '비즈니스'],
+      hotelType: 'business',
+      rating: 4.3,
+      reviewCount: 134,
+      status: 'active',
+      tags: ['비즈니스', '추천']
+    },
+    {
+      name: '파주 출판단지 북스테이',
+      description: '파주출판도시의 감성적인 북카페 호텔입니다.',
+      location: {
+        address: '경기도 파주시 회동길 145',
+        city: '파주',
+        country: '대한민국',
+        coordinates: { lat: 37.7452, lng: 126.6961 }
+      },
+      images: hotelImages.gyeonggi,
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '바', '북카페'],
+      hotelType: 'boutique',
+      rating: 4.7,
+      reviewCount: 223,
+      status: 'active',
+      tags: ['신규', '커플', '인기']
+    },
+    {
+      name: '파주 임진각 평화호텔',
+      description: '임진각 평화누리공원이 가까운 역사 관광 호텔입니다.',
+      location: {
+        address: '경기도 파주시 문산읍 임진각로 148',
+        city: '파주',
+        country: '대한민국',
+        coordinates: { lat: 37.8908, lng: 126.7474 }
+      },
+      images: hotelImages.gyeonggi.slice(1),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '조식'],
+      hotelType: 'business',
+      rating: 4.4,
+      reviewCount: 156,
+      status: 'active',
+      tags: ['추천']
+    },
+    {
+      name: '안양 예술공원 호텔',
+      description: '안양예술공원과 삼성산이 가까운 자연 속 호텔입니다.',
+      location: {
+        address: '경기도 안양시 만안구 예술공원로 268',
+        city: '안양',
+        country: '대한민국',
+        coordinates: { lat: 37.4012, lng: 126.9522 }
+      },
+      images: hotelImages.gyeonggi.slice(2),
+      owner: business8._id,
+      amenities: ['WiFi', '주차', '레스토랑', '피트니스'],
+      hotelType: 'resort',
+      rating: 4.5,
+      reviewCount: 178,
+      status: 'active',
+      tags: ['가족', '추천']
     }
   ];
 
@@ -701,7 +1892,7 @@ const seedRooms = async (hotels) => {
   const rooms = [];
 
   for (const hotel of hotels) {
-    // 각 호텔마다 4-6개의 객실 타입 생성
+    // 각 호텔마다 7-10개의 객실 타입 생성
     const hotelRooms = [
       {
         hotel: hotel._id,
@@ -717,8 +1908,8 @@ const seedRooms = async (hotels) => {
         beds: '더블 베드 1개',
         images: roomImages.standard,
         amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '업무용 책상'],
-        totalRooms: 10,
-        availableRooms: Math.floor(Math.random() * 5) + 5,
+        totalRooms: 12,
+        availableRooms: Math.floor(Math.random() * 6) + 6,
         status: 'available'
       },
       {
@@ -734,6 +1925,24 @@ const seedRooms = async (hotels) => {
         size: 26,
         beds: '싱글 베드 2개',
         images: roomImages.standard,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '업무용 책상'],
+        totalRooms: 10,
+        availableRooms: Math.floor(Math.random() * 5) + 4,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '스탠다드 퀸',
+        type: 'Standard',
+        roomType: 'standard',
+        bedType: 'queen',
+        viewType: 'city',
+        description: '퀸 사이즈 베드가 있는 넓은 스탠다드 객실입니다.',
+        price: Math.floor(Math.random() * 50000) + 90000, // 90,000 - 140,000
+        capacity: { adults: 2, children: 1 },
+        size: 28,
+        beds: '퀸 베드 1개',
+        images: roomImages.standard.slice(1),
         amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '업무용 책상'],
         totalRooms: 8,
         availableRooms: Math.floor(Math.random() * 4) + 3,
@@ -753,8 +1962,8 @@ const seedRooms = async (hotels) => {
         beds: '퀸 베드 1개',
         images: roomImages.deluxe,
         amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
-        totalRooms: 8,
-        availableRooms: Math.floor(Math.random() * 4) + 3,
+        totalRooms: 10,
+        availableRooms: Math.floor(Math.random() * 5) + 4,
         status: 'available'
       },
       {
@@ -771,6 +1980,24 @@ const seedRooms = async (hotels) => {
         beds: '싱글 베드 2개',
         images: roomImages.deluxe,
         amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
+        totalRooms: 8,
+        availableRooms: Math.floor(Math.random() * 4) + 3,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '디럭스 킹',
+        type: 'Deluxe',
+        roomType: 'deluxe',
+        bedType: 'king',
+        viewType: 'city',
+        description: '킹 사이즈 베드와 고급 가구가 있는 프리미엄 디럭스 객실입니다.',
+        price: Math.floor(Math.random() * 70000) + 140000, // 140,000 - 210,000
+        capacity: { adults: 2, children: 2 },
+        size: 38,
+        beds: '킹 베드 1개',
+        images: roomImages.deluxe.slice(1),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '네스프레소'],
         totalRooms: 6,
         availableRooms: Math.floor(Math.random() * 3) + 2,
         status: 'available'
@@ -788,7 +2015,7 @@ const seedRooms = async (hotels) => {
         size: 50,
         beds: '킹 베드 1개 + 소파베드',
         images: roomImages.suite,
-        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실'],
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '네스프레소'],
         totalRooms: 5,
         availableRooms: Math.floor(Math.random() * 3) + 2,
         status: 'available'
@@ -807,6 +2034,24 @@ const seedRooms = async (hotels) => {
         beds: '킹 베드 1개 + 더블 베드 1개',
         images: roomImages.suite.slice(1),
         amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조'],
+        totalRooms: 6,
+        availableRooms: Math.floor(Math.random() * 3) + 2,
+        status: 'available'
+      },
+      {
+        hotel: hotel._id,
+        name: '트리플 룸',
+        type: 'Standard',
+        roomType: 'standard',
+        bedType: 'twin',
+        viewType: 'city',
+        description: '3인 여행객을 위한 싱글 베드 3개가 있는 객실입니다.',
+        price: Math.floor(Math.random() * 60000) + 110000, // 110,000 - 170,000
+        capacity: { adults: 3, children: 1 },
+        size: 30,
+        beds: '싱글 베드 3개',
+        images: roomImages.standard.slice(2),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어'],
         totalRooms: 4,
         availableRooms: Math.floor(Math.random() * 2) + 1,
         status: 'available'
@@ -814,7 +2059,7 @@ const seedRooms = async (hotels) => {
     ];
 
     // 해변/오션뷰가 있는 호텔에는 오션뷰 객실 추가
-    if (hotel.location.city === '부산' || hotel.location.city === '제주') {
+    if (hotel.location.city === '부산' || hotel.location.city === '제주' || hotel.location.city === '강릉' || hotel.location.city === '속초' || hotel.location.city === '여수') {
       hotelRooms.push({
         hotel: hotel._id,
         name: '프리미엄 오션뷰',
@@ -822,21 +2067,40 @@ const seedRooms = async (hotels) => {
         roomType: 'premium',
         bedType: 'king',
         viewType: 'ocean',
-        description: '탁 트인 바다 전망을 감상할 수 있는 최고급 객실입니다. 발코니에서 일출/일몼을 즐기세요.',
+        description: '탁 트인 바다 전망을 감상할 수 있는 최고급 객실입니다. 발코니에서 일출/일몰을 즐기세요.',
         price: Math.floor(Math.random() * 150000) + 250000, // 250,000 - 400,000
         capacity: { adults: 4, children: 2 },
         size: 65,
         beds: '킹 베드 1개 + 소파베드',
         images: roomImages.suite.slice(1),
-        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '발코니'],
-        totalRooms: 3,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '발코니', '와인냉장고'],
+        totalRooms: 4,
         availableRooms: Math.floor(Math.random() * 2) + 1,
+        status: 'available'
+      });
+      
+      hotelRooms.push({
+        hotel: hotel._id,
+        name: '디럭스 오션뷰',
+        type: 'Deluxe',
+        roomType: 'deluxe',
+        bedType: 'queen',
+        viewType: 'ocean',
+        description: '바다가 보이는 디럭스 객실입니다. 커플 여행에 완벽합니다.',
+        price: Math.floor(Math.random() * 80000) + 160000, // 160,000 - 240,000
+        capacity: { adults: 2, children: 1 },
+        size: 35,
+        beds: '퀸 베드 1개',
+        images: roomImages.deluxe.slice(2),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '욕조', '발코니'],
+        totalRooms: 6,
+        availableRooms: Math.floor(Math.random() * 3) + 2,
         status: 'available'
       });
     }
 
     // 스파/온천이 있는 호텔에는 스파 스위트 추가
-    if (hotel.amenities?.includes('스파')) {
+    if (hotel.amenities?.includes('스파') || hotel.amenities?.includes('온천')) {
       hotelRooms.push({
         hotel: hotel._id,
         name: '스파 스위트',
@@ -850,9 +2114,9 @@ const seedRooms = async (hotels) => {
         size: 70,
         beds: '킹 베드 1개',
         images: roomImages.suite,
-        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '스파', '사우나', '거실', '발코니'],
-        totalRooms: 2,
-        availableRooms: Math.floor(Math.random() * 1) + 1,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '스파', '사우나', '거실', '발코니', '아로마테라피'],
+        totalRooms: 3,
+        availableRooms: Math.floor(Math.random() * 2) + 1,
         status: 'available'
       });
     }
@@ -872,8 +2136,52 @@ const seedRooms = async (hotels) => {
         size: 38,
         beds: '킹 베드 1개',
         images: roomImages.deluxe.slice(1),
-        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '대형 업무용 책상', '프린터', '팩스'],
-        totalRooms: 4,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '대형 업무용 책상', '프린터', '팩스', '회의공간'],
+        totalRooms: 5,
+        availableRooms: Math.floor(Math.random() * 3) + 2,
+        status: 'available'
+      });
+    }
+
+    // 리조트는 프리미엄 풀빌라 추가
+    if (hotel.hotelType === 'resort' || hotel.hotelType === 'luxury') {
+      hotelRooms.push({
+        hotel: hotel._id,
+        name: '프리미엄 풀빌라',
+        type: 'Premium',
+        roomType: 'premium',
+        bedType: 'king',
+        viewType: 'garden',
+        description: '전용 수영장이 있는 최고급 풀빌라입니다. 완벽한 프라이버시를 즐기세요.',
+        price: Math.floor(Math.random() * 200000) + 400000, // 400,000 - 600,000
+        capacity: { adults: 4, children: 2 },
+        size: 85,
+        beds: '킹 베드 2개',
+        images: roomImages.suite.slice(2),
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '소파', '책상', '욕조', '거실', '전용수영장', '야외테라스', '바비큐'],
+        totalRooms: 2,
+        availableRooms: Math.floor(Math.random() * 1) + 1,
+        status: 'available'
+      });
+    }
+
+    // 펜션 타입은 독채 추가
+    if (hotel.hotelType === 'pension') {
+      hotelRooms.push({
+        hotel: hotel._id,
+        name: '독채 펜션',
+        type: 'Suite',
+        roomType: 'suite',
+        bedType: 'king',
+        viewType: 'garden',
+        description: '프라이빗한 독립된 공간입니다. 가족 또는 단체 여행에 최적입니다.',
+        price: Math.floor(Math.random() * 150000) + 250000, // 250,000 - 400,000
+        capacity: { adults: 6, children: 3 },
+        size: 75,
+        beds: '킹 베드 2개 + 더블 베드 1개',
+        images: roomImages.suite,
+        amenities: ['WiFi', '에어컨', '미니바', 'TV', '금고', '헤어드라이어', '주방', '거실', '바비큐', '테라스'],
+        totalRooms: 3,
         availableRooms: Math.floor(Math.random() * 2) + 1,
         status: 'available'
       });
@@ -1032,8 +2340,7 @@ const seedDatabase = async () => {
     console.log(`   - 쿠폰: ${coupons.length}개\n`);
     
     console.log('🔐 테스트 계정:');
-    console.log('   관리자1: happysun0142@gmail.com / love7942@');
-    console.log('   관리자2: admin@test.com / 123456');
+    console.log('   관리자: happysun0142@gmail.com / love7942@');
     console.log('   사업자: test1@gmail.com / 123456');
     console.log('   사용자: test2@gmail.com / 123456\n');
     
